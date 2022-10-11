@@ -1,0 +1,9 @@
+AuditLogs
+| where AADOperationType == "ActivateRole"
+| extend AdditionalDetailsArray = todynamic(AdditionalDetails)
+| mv-expand AdditionalDetailsArray
+| where AdditionalDetailsArray contains "ExpirationTime"
+| extend TargetResourcesArray = todynamic(TargetResources)
+| mv-expand TargetResourcesArray
+| where TargetResourcesArray contains "RoleDefinitionOriginType"
+| project TimeGenerated, User = Identity, AAD_PIM_Role = TargetResourcesArray.displayName, ExpirationTime_UTC = AdditionalDetailsArray.value, Reason = ResultDescription, Result
