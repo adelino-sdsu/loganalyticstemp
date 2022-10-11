@@ -1,0 +1,11 @@
+Event
+| where Computer contains "id.sdsu.edu"
+| where EventLog == "System"
+| where EventID == 7045
+| extend Service_Name_extend = extract(@"Service\sName:\s(.+)\sService\sFile\sName", 1, RenderedDescription)
+| extend Service_File_Name_extend = extract(@"Service\sFile\sName:\s(.+)\sService\sType", 1, RenderedDescription)
+| extend Service_Type_extend = extract(@"Service\sType:\s(.+)\sService\sStart\sType", 1, RenderedDescription)
+| extend Service_Start_Type_extend = extract(@"Service\sStart\sType:\s(.+)\sService\sAccount", 1, RenderedDescription)
+| extend Service_Account_Name_extend = extract(@"Service\sAccount:\s(.+)", 1, RenderedDescription)
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, Service_Name = Service_Name_extend , Service_File_Name = Service_File_Name_extend, Service_Type = Service_Type_extend, Service_Start_Type = Service_Start_Type_extend , Service_Account_Name = Service_Account_Name_extend

@@ -1,0 +1,4 @@
+SigninLogs 
+| where CreatedDateTime >= ago(7d)
+| summarize signInCount = count() by AppDisplayName 
+| sort by signInCount desc

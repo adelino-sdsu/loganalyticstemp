@@ -1,0 +1,30 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+|where ((EventID == 4625 or (EventID == 4768 and Status != "0x0") or EventID == 4771 or EventID == 4777) and TargetUserName !contains "$") or (EventID == 4776 and Status != "0x0")
+|extend Where_extend = case(
+Workstation != "",Workstation,
+IpAddress != "",IpAddress,
+"N/A"
+)
+|extend Problem_Code_extend = case(
+SubStatus != "",SubStatus,
+Status != "",Status,
+"Not Applicable"
+)
+|extend Problem_extend = case(
+Problem_Code_extend == "0xc0000064","Bad User Name",
+Problem_Code_extend == "0xc000006d","Bad User Name",
+Problem_Code_extend == "0xc000006a","Bad Password",
+Problem_Code_extend == "0xc0000193","Account Expired",
+Problem_Code_extend == "0xc0000234","Account Locked",
+Problem_Code_extend == "0xc0000071","Expired Password",
+Problem_Code_extend == "0xc0000072","Account Disabled",
+Problem_Code_extend == "0xc0000224","Next Logon Req Pwd Change",
+Problem_Code_extend == "0x6","Bad User Name",
+Problem_Code_extend == "0x12","Disabled or Locked",
+Problem_Code_extend == "0x18","Bad Password",
+Problem_Code_extend == "0x17","Expired Password",
+"Not Applicable"
+)
+| extend PacificTimeStamp = TimeGenerated  -7h
+|project PacificTimeStamp, host = Computer, Where = Where_extend, Who = TargetUserName, Problem = Problem_extend , EventID, Problem_Code = Problem_Code_extend

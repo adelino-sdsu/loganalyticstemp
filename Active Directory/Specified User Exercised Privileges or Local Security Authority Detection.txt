@@ -1,0 +1,1 @@
+SecurityEvent | where Computer contains "id.sdsu.edu" |  where EventID == 4673 or EventID == 4611 | extend PacificTimeStamp = TimeGenerated  -7hs

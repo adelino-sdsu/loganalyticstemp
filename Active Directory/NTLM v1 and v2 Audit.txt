@@ -1,0 +1,1 @@
+//NTLM V1 Activity with 10 mins interval excluding Anoymous logon

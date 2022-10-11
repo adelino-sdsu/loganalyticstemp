@@ -1,0 +1,22 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4624 or EventID == 4625
+| where TargetUserName != "Weblogic-LDAP"
+| where * contains "146.244.71.131"
+| extend Issue_extend = case(
+EventID == "4624","Successful Logon",
+SubStatus == "0xc0000064","Bad User Name",
+SubStatus == "0xc000006a","Bad Password",
+SubStatus == "0xc0000234","Account Locked",
+SubStatus == "0xc0000071","Expired Password",
+SubStatus == "0xc0000072","Account Disabled",
+SubStatus == "0xc0000224","Next Logon Req Pwd Change",
+SubStatus == "0xc0000064","Bad User Name",
+SubStatus == "0xc0000234","Account Locked",
+Status == "0x6","Bad User Name",
+Status == "0x12","Disabled or Locked",
+Status == "0x18","Bad Password",
+Status == "0x17","Expired Password",
+"not applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, Computer, Where = IpAddress, Who = TargetUserName, Issue = Issue_extend, EventID

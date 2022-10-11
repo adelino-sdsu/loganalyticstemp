@@ -1,0 +1,7 @@
+Event
+| where Computer contains "id.sdsu.edu"
+| where EventLog == "System"
+| where EventID == 5723
+| extend computer_extend = extract(@"computer\s.(.+).\sreferenced", 1, RenderedDescription)
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, EventID, computer = computer_extend

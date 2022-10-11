@@ -1,0 +1,6 @@
+SecurityEvent
+| where TimeGenerated > ago(7d)
+| where EventID == 4624 and AccountType == "User" and AuthenticationPackageName == "NTLM"
+| where LmPackageName != "NTLM V2"
+| project EventID, TimeGenerated, Account, Computer, IpAddress, LogonType, AuthenticationPackageName, LmPackageName, LogonProcessName, WorkstationName
+| sort by TimeGenerated desc nulls last

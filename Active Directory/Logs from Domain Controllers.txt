@@ -1,0 +1,6 @@
+Heartbeat
+| where OSType == 'Windows'
+| where ComputerIP contains "51.141" or ComputerIP contains "146.244"
+| summarize arg_max(TimeGenerated, *) by SourceComputerId
+| sort by Computer
+| render table
