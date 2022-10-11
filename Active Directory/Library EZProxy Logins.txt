@@ -1,0 +1,5 @@
+SigninLogs
+| extend PST_TimeStamp = TimeGenerated  -7h
+| where AppDisplayName contains "Lib-EZProxy"
+| where ResultType == "0"
+| project PST_TimeStamp, User = Identity, EMail = UserPrincipalName, IPAddress, AppDisplayName

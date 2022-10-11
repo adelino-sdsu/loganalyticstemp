@@ -1,0 +1,5 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 5140 and ShareName !contains "IPC$" and ShareName !contains "SYSVOL" and ShareName !contains "NETLOGON"
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, EventID, ShareName, Account_Name = Account, Source_Address = IpAddress

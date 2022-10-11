@@ -1,0 +1,6 @@
+Event
+| where Computer contains "id.sdsu.edu"
+| where EventLog == "DNS Server"
+| where * contains "130.191.15.42"
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, Source, Computer, EventData

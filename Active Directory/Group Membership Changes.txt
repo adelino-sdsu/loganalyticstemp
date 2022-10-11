@@ -1,0 +1,6 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4728 or EventID == 4729 or EventID == 4756 or EventID == 4757
+| extend Action_extend = case(EventID=="4728" or EventID=="4756","Added",EventID=="4729" or EventID=="4757","Removed", "Not Applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, EventID, GroupName = TargetUserName, Changed_By = SubjectUserName, Action = Action_extend , Account_Added_Or_Removed = MemberName

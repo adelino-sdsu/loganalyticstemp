@@ -1,0 +1,7 @@
+Event
+| where Computer contains "id.sdsu.edu"
+| where EventLog == "System"
+| where EventID == 6008 or EventID == 1074 or EventID == 6005
+| extend Message = case(EventID == 6008, "rebooted", EventID == 1074, "rebooted", EventID == 6005, "rebooted", "not applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, Computer, EventID, Message

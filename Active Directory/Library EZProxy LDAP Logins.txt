@@ -1,0 +1,6 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| extend PST_TimeStamp = TimeGenerated  -7h
+| where EventID == 4624 and TargetUserName !contains "$"
+| where IpAddress == "146.244.101.130" or IpAddress == "146.244.101.138"
+| project PST_TimeStamp, Account_Name = TargetUserName, IpAddress

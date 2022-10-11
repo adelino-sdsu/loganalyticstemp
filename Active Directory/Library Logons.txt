@@ -1,0 +1,13 @@
+SecurityEvent
+| where EventID == 4768
+| where IpAddress contains "130.191.109."
+or IpAddress contains "146.244.11."
+or IpAddress contains "146.244.137."
+or IpAddress contains "146.244.138."
+or IpAddress contains "130.191.137."
+or IpAddress contains "130.191.138."
+| where TargetUserName !contains "$"
+| extend IpAddress = extract(@"::ffff:(.+)", 1, IpAddress)
+| summarize Logins=count() by bin(TimeGenerated - 7h, 1m), TargetUserName, IpAddress
+| project PacificTime = Column1, Account_Name = TargetUserName, Client_Address = IpAddress
+| sort by PacificTime

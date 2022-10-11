@@ -1,0 +1,7 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4768
+| where * contains "ETS-UCS-E049055" //Enter computer name here
+| extend PacificTimeStamp = TimeGenerated  -7h
+| limit 1
+| project PacificTimeStamp, host = Computer, EventID, User_ID = TargetUserName, Client_Address = IpAddress

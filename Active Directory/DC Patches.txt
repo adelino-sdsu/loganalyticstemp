@@ -1,0 +1,6 @@
+Event
+| where EventLog == "System"
+| where EventID == "19"
+| where RenderedDescription !contains "Update for Windows Defender" or RenderedDescription !contains "KB890830"
+or RenderedDescription !contains "Microsoft Endpoint Protection"
+| project TimeGenerated, Computer, RenderedDescription

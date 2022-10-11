@@ -1,0 +1,12 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 5136 
+| where SubjectUserName != "svcMIMInstall"
+and SubjectUserName != "AccountClaimPrep"
+and SubjectUserName != "svcIMSDSU"
+| extend LDAPDisplayName = extract(@"AttributeLDAPDisplayName.>(.+)</Data>",1,EventData)
+| where LDAPDisplayName == "employeeNumber"
+| extend Account_Changed_extend = extract(@"ObjectDN.>(.+)</Data>", 1, EventData)
+| extend OperationType_extend = extract(@"OperationType.>(.+)</Data>", 1, EventData)
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project Changed_by = SubjectUserName, Account_Changed = Account_Changed_extend, Action = OperationType_extend, PacificTimeStamp

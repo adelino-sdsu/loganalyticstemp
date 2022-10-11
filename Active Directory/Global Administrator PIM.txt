@@ -1,0 +1,7 @@
+AuditLogs
+| where AADOperationType == "ActivateRole"
+| where * contains "Global Administrator"
+| extend AdditionalDetailsArray = todynamic(AdditionalDetails)
+| mv-expand AdditionalDetailsArray
+| where AdditionalDetailsArray contains "ExpirationTime"
+| project TimeGenerated, ExpirationTime_UTC = AdditionalDetailsArray.value, User = Identity, Reason = ResultDescription, Result
