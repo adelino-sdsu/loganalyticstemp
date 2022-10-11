@@ -1,0 +1,3 @@
+DnsEvents
+| where Computer == "IDDC5.id.sdsu.edu" or Computer == "IDDC4.id.sdsu.edu" or Computer == "IDDC00.id.sdsu.edu" or Computer == "IDDC93.id.sdsu.edu"  or Computer == "IDDC94.id.sdsu.edu" | 
+summarize by ClientIP
