@@ -1,0 +1,8 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4728 or EventID == 4729
+| where TargetAccount endswith "ENT-finprd"
+| extend EventID = case(EventID == 4728, "Added to group", EventID == 4729, "Removed from group", "Not Applicable")
+| extend MemberName = replace(@"(,.*$)", @" ", MemberName)
+| extend PacificTimeStamp = TimeGenerated  
+| project PacificTimeStamp, host = Computer, Action = EventID, Group_Name = TargetAccount, userchanged = MemberName, changedby = SubjectUserName

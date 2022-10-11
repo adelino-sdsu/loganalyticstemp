@@ -1,0 +1,5 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| extend PacificTimeStamp = TimeGenerated  -7h
+| where EventID == 4722 or EventID == 4768
+| where * contains "ADMT-admin"

@@ -1,0 +1,3 @@
+AuditLogs 
+| where Category == "Policy"
+| project  ActivityDateTime, ActivityDisplayName , TargetResources[0].displayName, InitiatedBy.user.userPrincipalName
