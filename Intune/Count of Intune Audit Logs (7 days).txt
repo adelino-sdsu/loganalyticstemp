@@ -1,0 +1,4 @@
+IntuneAuditLogs
+| where TimeGenerated >= ago(7d)
+| summarize auditCount = count() by OperationName 
+| sort by auditCount desc

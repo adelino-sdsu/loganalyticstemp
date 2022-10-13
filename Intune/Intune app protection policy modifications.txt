@@ -1,0 +1,4 @@
+ IntuneAuditLogs 
+| where  OperationName contains "ManagedAppPolicy" 
+| extend d=parse_json(Properties)
+| project Identity, OperationName, tostring(d.TargetDisplayNames)

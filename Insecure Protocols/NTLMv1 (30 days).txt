@@ -1,0 +1,9 @@
+SecurityEvent 
+| where TimeGenerated > ago(30d)
+| where EventID == 4624 
+| where AuthenticationPackageName == 'NTLM' 
+| where LmPackageName == 'NTLM V1'  
+| where Account !contains 'ANONYMOUS LOGON' 
+| where '{\"WorkstationName\":\"All\"}' contains "All" or ('{\"WorkstationName\":\"All\"}' contains WorkstationName and '{\"WorkstationName\":\"All\"}' contains Computer)
+| summarize Count = count() by Account, WorkstationName, DC=Computer, LogonProcessName, TargetDomainName, TargetAccount, IpAddress
+| sort by Count desc

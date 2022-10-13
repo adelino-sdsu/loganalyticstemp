@@ -1,0 +1,7 @@
+Event
+| where EventID == 3000 and EventLog == 'Microsoft-Windows-SMBServer/Audit'
+| parse ParameterXml with * '<Param>' ClientAddress '</' *
+| extend Client = replace(@'>', @'', replace(@'\]', @'', replace(@'\[', @'', replace(@'<!\[CDATA', @'', ClientAddress))))
+| where Client == 'All' or 'All' == "All"
+| summarize Count=count() by Client, SMBServer=Computer, ParameterXml, RenderedDescription, EventData
+| sort by Count desc
