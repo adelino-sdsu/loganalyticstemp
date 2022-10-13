@@ -1,0 +1,4 @@
+CommonSecurityLog
+| where DeviceVendor == "Palo Alto Networks"
+| where TimeGenerated > ago(3d) 
+| project TimeGenerated,DeviceVendor,DeviceProduct,DeviceAction,Computer,DestinationIP,DestinationPort,SourceIP,Protocol,SourcePort

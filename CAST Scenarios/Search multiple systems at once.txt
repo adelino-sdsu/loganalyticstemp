@@ -1,0 +1,16 @@
+SecurityEvent // Active Directory and Windows Security Event logs
+| union SigninLogs //AAD signin logs
+| union CommonSecurityLog // Duo and Aruba logs
+| union AuditLogs // AAD Audit logs
+| union Event // Windows Application Event logs and Windows System Event logs
+| union Syslog // Linux, Clearpass, Switch logs
+| union workspace("0fb40eb9-c01e-4d41-a7bd-3e356ab22820").Syslog // PAN logs
+| where * contains "adelino"
+| extend Type_of_log = Type
+| extend ipaddress_extend = case(
+IPAddress != "",IPAddress,
+SourceIP != "", SourceIP,
+IpAddress != "",IpAddress,
+EventID == 4769 or EventID == 4770,extract(@".IpAddress.>(.*)<\/Data>", 1, EventData),
+"N/A"
+)

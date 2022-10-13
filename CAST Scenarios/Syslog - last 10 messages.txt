@@ -1,0 +1,4 @@
+workspace("01163a93-be0d-4a45-a817-5716bcdf555d").Syslog
+| where Computer == "splice"
+| order by TimeGenerated
+| limit 10
