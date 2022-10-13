@@ -1,0 +1,6 @@
+CommonSecurityLog
+| where TimeGenerated > now() - 30d
+| where DeviceVendor contains "Duo Security"
+| where DeviceCustomString1 == "SDSU Prod - Microsoft Azure Active Directory"
+| summarize count() by AdditionalExtensions, bin(TimeGenerated,1d)
+| render timechart

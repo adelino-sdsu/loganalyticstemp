@@ -1,0 +1,6 @@
+CommonSecurityLog
+| where TimeGenerated > now() - 30d
+| where DeviceVendor contains "Duo Security"
+| where DeviceCustomString1 == "SDSU Shibboleth"
+| summarize count() by AdditionalExtensions, bin(TimeGenerated,1d)
+| render timechart

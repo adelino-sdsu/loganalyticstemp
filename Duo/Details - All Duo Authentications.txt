@@ -1,0 +1,4 @@
+CommonSecurityLog
+| where DeviceVendor contains "Duo Security"
+| where DestinationUserName != "" and SourceIP != ""
+| project TimeGenerated, ReceiptTime, SourceIP, DestinationUserName, DeviceCustomString1, DeviceCustomString3

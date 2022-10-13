@@ -1,0 +1,5 @@
+CommonSecurityLog
+| where DeviceVendor contains "Duo Security"
+| where DeviceCustomString3 == "telephony"
+| project TimeGenerated, ReceiptTime, phoneCredits = DeviceCustomString2,DeviceCustomString3, DeviceCustomString4
+| order by toint(phoneCredits) desc

@@ -1,0 +1,3 @@
+CommonSecurityLog
+| where DeviceVendor contains "Duo Security"
+| where AdditionalExtensions == "outcome=fraud"

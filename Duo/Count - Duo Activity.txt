@@ -1,0 +1,4 @@
+CommonSecurityLog
+|where DeviceVendor == "Duo Security"
+|summarize count() by Activity
+|order by count_
