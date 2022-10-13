@@ -1,0 +1,3 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3044"
+| project SessionID, MacAddress,UserName,NasIP,NasPort,RequestID,ActionID,ActionType,ActionName,ActionDisplayName,TimeStamp

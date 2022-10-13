@@ -1,0 +1,7 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3049"
+| project EventSource,
+        Level,
+        Category,
+        Description,
+        TimeStamp

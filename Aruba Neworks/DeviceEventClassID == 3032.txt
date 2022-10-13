@@ -1,0 +1,8 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3032"
+| project CommonUsername,
+        Address,
+        CommonRoles,
+        CommonEnforcement,
+        CommonRequestTimestamp,
+        TimeStamp

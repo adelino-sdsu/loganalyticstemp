@@ -1,0 +1,8 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3042"
+| project ID,
+        SourceProcessId,
+        CPUUSage,
+        ResMemUsage,
+        VirtMemUsage,
+        TimeStamp

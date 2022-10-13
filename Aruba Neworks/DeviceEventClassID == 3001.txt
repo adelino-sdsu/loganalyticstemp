@@ -1,0 +1,3 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3001"
+| project Cat

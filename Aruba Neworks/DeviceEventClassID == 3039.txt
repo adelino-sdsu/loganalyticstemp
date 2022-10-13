@@ -1,0 +1,15 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3039"
+| project SeqNum,
+        SessionID,
+        UserName,
+        NasIP,
+        NasPort,
+        NasPortType,
+        CallingStationID,
+        CalledStationID,
+        IPAddress,
+        AcctStatusType,
+        AcctDelayTime,
+        AcctSessionID,
+        TimeStamp

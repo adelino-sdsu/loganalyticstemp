@@ -1,0 +1,3 @@
+CommonSecurityLog
+| where DeviceVendor == "Aruba Networks"
+| where FileName != "" | distinct FileName

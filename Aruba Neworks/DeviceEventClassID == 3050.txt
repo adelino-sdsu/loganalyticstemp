@@ -1,0 +1,15 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3050"
+| project ID,
+        SwapSizeUsed,
+        SlashSizeUsed,
+        SwapMemoryAvail,
+        SystemMemoryAvail,
+        CPURawUser,
+        CPURawNice,
+        CPURawSystem,
+        CPURawIdle,
+        MgmtInfStatus,
+        DataInfStatus,
+        Uptime,
+        TimeStamp

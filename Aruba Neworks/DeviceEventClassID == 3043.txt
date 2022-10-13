@@ -1,0 +1,7 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3043"
+| project ID,
+        SessionID,
+        AttrName,
+        AttrVal,
+        TimeStamp

@@ -1,0 +1,13 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3045"
+| project SessionID,
+        UserName,
+        ServiceName,
+        AuthMethod,
+        AuthSource,
+        NasIP,
+        NasPort,
+        MacAddress,
+        RequestStatus,
+        ErrorCode,
+        TimeStamp

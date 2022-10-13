@@ -1,0 +1,14 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3052"
+| project ID,
+        SessionID,
+        Flags,
+        UserName,
+        NasIP,
+        Port,
+        RemoteAddress,
+        PrivLevel,
+        AuthenType,
+        AuthenMethod,
+        AuthenService,
+        TimeStamp

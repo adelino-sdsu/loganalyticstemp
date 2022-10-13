@@ -1,0 +1,6 @@
+ArubaClearPassTN()
+| where DeviceEventClassID == "3048"
+| project ID,
+        AttrName,
+        AttrType,
+        AttrVal
