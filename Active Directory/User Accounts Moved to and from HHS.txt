@@ -1,0 +1,8 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4728 or EventID == 4729
+| where TargetAccount contains "ENT-OU_Employees-AA-HHS"
+| extend Action_Attempted_extend = case(EventID==4728,"Added to OU",EventID==4729,"Removed from OU", "Not Applicable")
+| extend Result_extend = case(EventID==4728,"Succeeded",EventID==4729,"Succeeded", "Not Applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, EventID, Action_Attempted = Action_Attempted_extend , Result = Result_extend , Account_Changed = MemberName, User_Account = SubjectUserName , OU = TargetAccount

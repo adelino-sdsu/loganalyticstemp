@@ -1,0 +1,3 @@
+SecurityEvent
+| where EventID in (4725)
+| extend PST_TimeStamp = TimeGenerated  -7h

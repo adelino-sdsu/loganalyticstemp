@@ -1,0 +1,11 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where TimeGenerated > now() - 7d
+| where EventID==4720 and AccountName !endswith "$"
+| extend Result_extend = case(
+Level==8,"Succeeded",
+Level==16,"Failed",
+"Not Applicable")
+| extend Action_Attempted_extend = case(EventID==4720,"Created","N/A")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, Action_Attempted = Action_Attempted_extend, Result = Result_extend, AccountCreated = TargetUserName, Changed_By = SubjectUserName, AccountExpires

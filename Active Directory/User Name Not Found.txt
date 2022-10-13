@@ -1,0 +1,7 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4768
+| where Status == "0x6"
+| where TargetUserName !endswith "$" and TargetUserName !startswith "@" and TargetUserName !startswith "8"
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, EventID, Client_Address = IpAddress, Account_Name = TargetUserName
