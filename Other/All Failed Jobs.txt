@@ -1,0 +1,6 @@
+// All Failed Jobs 
+// View all failed jobs in the selected time range. 
+// To create an alert for this query, click '+ New alert rule'
+AddonAzureBackupJobs
+| summarize arg_max(TimeGenerated,*) by JobUniqueId
+| where JobStatus == "Failed"

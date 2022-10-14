@@ -1,0 +1,5 @@
+// Average RTT across All Connections 
+// Display a graph of Round Trip Time (ms) across all connections over 10 min intervals at the 10th, 50th, and 90th percentiles. 
+WVDConnectionNetworkData
+| summarize RTTP90=percentile(EstRoundTripTimeInMs,90),RTTP50=percentile(EstRoundTripTimeInMs,50),RTTP10=percentile(EstRoundTripTimeInMs,10) by bin(TimeGenerated,10m)
+| render timechart

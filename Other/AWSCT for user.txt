@@ -1,0 +1,7 @@
+// AWSCT for user 
+// AWS activity for a user. 
+// Set v_sessionissuerusername and v_userpid  with the details of the user of interest
+let v_sessionissuerusername ="abc";let v_userpid ="AIDxXxXxXxXxXxX";
+AWSCloudTrail
+| where SessionIssuerUserName == v_sessionissuerusername  or UserIdentityPrincipalid ==v_userpid
+| project TimeGenerated, EventName, EventTypeName, UserIdentityAccountId, UserIdentityPrincipalid, UserAgent,     UserIdentityUserName, SessionMfaAuthenticated, SourceIpAddress, AWSRegion, EventSource, AdditionalEventData, ResponseElements, SessionIssuerUserName

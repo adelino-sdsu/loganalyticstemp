@@ -1,0 +1,7 @@
+// Azure Activity for user 
+// Show the user's activity over Azure Activity. 
+// Replace the UPN in the query with the UPN of the user of interest
+let v_Users_UPN= "osotnoc@contoso.com";
+AzureActivity
+| where Caller == v_Users_UPN
+| project TimeGenerated, Caller, OperationName, ActivityStatus

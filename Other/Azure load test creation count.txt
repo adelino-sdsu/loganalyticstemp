@@ -1,0 +1,6 @@
+// Azure load test creation count 
+// Counts the number of tests creation by resource ID. 
+AzureLoadTestingOperation
+| where OperationId == "Test_CreateOrUpdateTest"
+| where HttpStatusCode == 201
+| summarize count() by _ResourceId

@@ -1,0 +1,6 @@
+// All work items created today 
+// Retrieves all work items generated in this solution during the last day. 
+ServiceDesk_CL
+| where  CreatedDate_t > bin(now(), 1d) 
+| summarize arg_max(TimeGenerated, *) by ServiceDeskId_s 
+| sort by TimeGenerated desc

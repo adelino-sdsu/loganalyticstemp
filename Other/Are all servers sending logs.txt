@@ -1,0 +1,2 @@
+SecurityEvent
+| summarize by Computer

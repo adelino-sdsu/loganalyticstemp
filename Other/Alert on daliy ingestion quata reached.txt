@@ -1,0 +1,11 @@
+// Alert on daliy ingestion quata reached  
+// This query will show 'Warning' if the daily workspace quota limit is reached.  
+// This might be due to Free tier limit or user defined limit. 
+// In the later case, data collection is stopped and data loss is possible.
+// To create an alert for this query, click '+ New alert rule'
+// It is recommended to create and alert with frequency of 5 minutes. 
+// Read more https://docs.microsoft.com/en-us/azure/azure-monitor/platform/monitor-workspace
+_LogOperation
+| where Category == "Ingestion" 
+| where Operation == "Data Collection" 
+| where Level == "Warning"

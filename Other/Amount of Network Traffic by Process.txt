@@ -1,0 +1,4 @@
+// Amount of Network Traffic by Process 
+// Amount of Network Traffic (in Bytes) by Process. 
+WireData
+| summarize sum(TotalBytes) by ProcessName

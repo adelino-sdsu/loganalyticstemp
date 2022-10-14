@@ -1,0 +1,6 @@
+// All security incidents 
+// Retrieves all Security Incident work items generated in this solution. 
+ServiceDesk_CL
+| where  ServiceDeskWorkItemType_s == "SecurityIncident" 
+| summarize arg_max(TimeGenerated, *) by ServiceDeskId_s 
+| sort by TimeGenerated desc

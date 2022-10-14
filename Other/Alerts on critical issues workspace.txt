@@ -1,0 +1,7 @@
+// Alerts on critical issues workspace 
+// This query will list all the 'Error' level issues in the operation table, these issues are usually related to potential data loss, and needs immediate attention.  
+// To create an alert for this query, click '+ New alert rule'
+// It is recommended to create and alert with frequency of 5 minutes.
+// Read more - https://docs.microsoft.com/en-us/azure/azure-monitor/platform/monitor-workspace
+_LogOperation 
+| where Level == "Error"

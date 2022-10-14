@@ -1,0 +1,6 @@
+// Audit collection delete events 
+// Display audit logs for collection delete events. 
+PurviewSecurityLogs
+| where EntityType == 'Collections'
+| where OperationName == 'Delete'
+| take 100

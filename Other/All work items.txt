@@ -1,0 +1,5 @@
+// All work items 
+// Retrieves all work items generated in this solution. 
+ServiceDesk_CL
+| summarize arg_max(TimeGenerated, *) by ServiceDeskId_s 
+| sort by TimeGenerated desc

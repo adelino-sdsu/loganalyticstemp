@@ -1,0 +1,6 @@
+// AWS routing configuration events 
+// Lists routing configuration events over AWS. 
+let EventNameList = dynamic(["CreateNetworkAclEntry","CreateRoute","CreateRouteTable","CreateInternetGateway","CreateNatGateway"]);
+AWSCloudTrail
+| where EventName in~ (EventNameList)
+| summarize StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated) by SessionIssuerUserName, EventName, EventTypeName, UserIdentityAccountId, UserIdentityPrincipalid, UserAgent,     UserIdentityUserName, SessionMfaAuthenticated, SourceIpAddress, AWSRegion, EventSource, AdditionalEventData, ResponseElements, SessionIssuerArn

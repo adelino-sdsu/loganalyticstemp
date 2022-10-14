@@ -1,0 +1,16 @@
+// Avg node CPU usage percentage 
+// For your cluster view avg node CPU usage percentage. 
+//Select your log analytics workspace and replace enter cluster ID with your cluster arm ID
+//Unit for UsedCpuPercentage is in percentage(%)
+//Please use Nodename to set alert for each node
+Event
+| where EventLog =~ "Microsoft-Windows-SDDC-Management/Operational" and EventID == "3000"
+| extend ClusterData = parse_xml(EventData)
+| extend ClusterName = tostring(ClusterData.DataItem.UserData.EventData["ClusterName"])
+| extend ClusterArmId = tostring(ClusterData.DataItem.UserData.EventData["ArmId"])
+| where ClusterArmId =~ 'enter cluster ID'
+| summarize arg_max(TimeGenerated, RenderedDescription)
+| extend servers_information = parse_json(RenderedDescription).m_servers
+| mv-expand servers_information
+| extend Nodename = tostring(servers_information.m_name)
+| extend UsedCpuPercentage = toint(servers_information.m_totalProcessorsUsedPercentage)

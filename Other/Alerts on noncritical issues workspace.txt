@@ -1,0 +1,8 @@
+// Alerts on noncritical issues workspace 
+// This query will list all the 'Warning' level issues in the operation table.  
+// These noncritical issues are noncritical, but needs attention. 
+// To create an alert for this query, click '+ New alert rule'.
+// It is recommended to create and alert with frequency of 24 hours.
+// Read more https://docs.microsoft.com/en-us/azure/azure-monitor/platform/monitor-workspace
+_LogOperation 
+| where Level == "Warning"

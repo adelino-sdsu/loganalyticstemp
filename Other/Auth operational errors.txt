@@ -1,0 +1,7 @@
+// Auth operational errors 
+// List every auth error ordered by recency. 
+ACSAuthIncomingOperations
+| where ResultType == "Failed"
+| project TimeGenerated, OperationName, OperationVersion, ResultSignature, ResultDescription
+| order by TimeGenerated desc
+| limit 100

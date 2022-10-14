@@ -1,0 +1,4 @@
+// All AWS CloudTrail events 
+// Lists all AWS cloud trail events. 
+AWSCloudTrail
+| project TimeGenerated, EventName, EventTypeName, UserIdentityAccountId, UserIdentityPrincipalid, UserAgent, UserIdentityUserName, SessionMfaAuthenticated, SourceIpAddress, AWSRegion, EventSource, AdditionalEventData, ResponseElements, SessionIssuerUserName

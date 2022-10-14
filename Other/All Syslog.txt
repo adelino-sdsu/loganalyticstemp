@@ -1,0 +1,4 @@
+// All Syslog 
+// Last 100 Syslog. 
+Syslog 
+| top 100 by TimeGenerated desc

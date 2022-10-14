@@ -1,0 +1,5 @@
+// All Syslog with errors 
+// Last 100 Syslog with erros. 
+Syslog 
+| where SeverityLevel == "err" or  SeverityLevel == "error"
+| top 100 by TimeGenerated desc

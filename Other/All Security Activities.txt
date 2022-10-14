@@ -1,0 +1,5 @@
+// All Security Activities 
+// Security activities sorted by time (newest first). 
+SecurityEvent
+| project TimeGenerated, Account, Activity, Computer
+| sort by TimeGenerated desc

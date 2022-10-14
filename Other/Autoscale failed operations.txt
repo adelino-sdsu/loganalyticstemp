@@ -1,0 +1,6 @@
+// Autoscale failed operations 
+// List all reports of failed operations, over the last day. 
+// To create an alert for this query, click '+ New alert rule'
+AutoscaleScaleActionsLog 
+| where TimeGenerated > ago(24h)  
+| where ResultType == "Failed"

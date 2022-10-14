@@ -1,0 +1,15 @@
+// Available volume capacity in a cluster. 
+// View available capacity (in Bytes) for a volume in a cluster 
+//Select your log analytics workspace and replace enter cluster ID with your cluster arm ID 
+Event
+| where EventLog =~ "Microsoft-Windows-SDDC-Management/Operational" and EventID == "3002"
+| extend ClusterData = parse_xml(EventData)
+| extend ClusterName = tostring(ClusterData.DataItem.UserData.EventData["ClusterName"])
+| extend ClusterArmId = tostring(ClusterData.DataItem.UserData.EventData["ArmId"])
+| where ClusterArmId =~ 'enter cluster ID'
+| summarize arg_max(TimeGenerated, RenderedDescription)
+| extend volumes_information = parse_json(RenderedDescription).VolumeList
+| mv-expand volumes_information
+| extend Volumes = tostring(volumes_information.m_Label)
+| extend TotalCap = todecimal(volumes_information.m_Size)
+| extend AvailableCap = TotalCap - todecimal(volumes_information.m_SizeUsed)

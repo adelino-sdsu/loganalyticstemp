@@ -1,0 +1,5 @@
+// Autoscale operation status 
+// Lists latest Autoscale operations, scale direction, instance count and it's status. 
+AutoscaleScaleActionsLog
+| project TimeGenerated, ResourceId, CurrentInstanceCount, NewInstanceCount, ScaleDirection, ResultType
+| sort by TimeGenerated desc

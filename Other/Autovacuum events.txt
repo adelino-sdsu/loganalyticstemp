@@ -1,0 +1,7 @@
+// Autovacuum events 
+// Search for autovacuum events over the last 24 hours. It requires parameter 'log_autovacuum_min_duration' enabled. 
+AzureDiagnostics
+| where TimeGenerated > ago(1d) 
+| where ResourceProvider =="MICROSOFT.DBFORPOSTGRESQL" 
+| where Category == "PostgreSQLLogs"
+| where Message contains "automatic vacuum"

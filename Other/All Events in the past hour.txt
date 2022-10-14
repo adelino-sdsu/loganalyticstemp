@@ -1,0 +1,5 @@
+// All Events in the past hour 
+// All Events in the past hour. 
+Event
+| where TimeGenerated > ago(1h)
+| sort by TimeGenerated desc

@@ -1,0 +1,4 @@
+// All Syslog by process name 
+// All Syslog by process name. 
+Syslog 
+| summarize count() by ProcessName
