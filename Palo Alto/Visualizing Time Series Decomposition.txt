@@ -1,0 +1,3 @@
+TimeSeriesData
+| extend (baseline,seasonal,trend,residual) = series_decompose(TotalBytesSent)
+| render timechart with (title="Palo Alto Time Series decomposition")

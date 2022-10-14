@@ -1,0 +1,2 @@
+CommonSecurityLog
+| where Activity has_cs "SYSTEM"

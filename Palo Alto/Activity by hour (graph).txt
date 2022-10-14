@@ -1,0 +1,4 @@
+CommonSecurityLog
+| where DeviceVendor contains "Palo Alto Networks"
+| summarize count() by Activity,bin(TimeGenerated, 60m)
+| render timechart

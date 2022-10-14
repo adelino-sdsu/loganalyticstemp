@@ -1,0 +1,4 @@
+CommonSecurityLog
+| where TimeGenerated > startofday(ago(31d))
+| where Activity has_cs "SYSTEM"
+| summarize count() by bin(TimeGenerated, 1d)

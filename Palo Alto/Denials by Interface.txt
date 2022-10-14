@@ -1,0 +1,6 @@
+CommonSecurityLog
+| where DeviceProduct =~ 'PAN-OS'
+| where DeviceVendor =~ 'Palo Alto Networks'
+| where DeviceAction =~ "deny"
+| summarize Denials=count() by DeviceCustomString4, bin(TimeGenerated, 10m)
+| render areachart

@@ -1,0 +1,3 @@
+CommonSecurityLog
+| where Activity has_cs "SYSTEM"
+| where Message has "searchstringhere" // change this to search for a specific user or IP

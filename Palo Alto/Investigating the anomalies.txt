@@ -1,0 +1,7 @@
+TimeSeriesAlerts
+| join ( 
+CommonSecurityLog 
+| where isnotempty(DestinationIP) and isnotempty(SourceIP)
+| where TimeGenerated between (startofday(ago(starttime))..startofday(ago(endtime))) 
+| summarize HourlyCount=count(), ListOfDestPorts=make_set(DestinationPort), TotalBytesSent=sum(SentBytes),TotalBytesReceived=sum(ReceivedBytes) by SourceIP, DestinationIP,DeviceVendor, TimeGenerated=bin(TimeGenerated,1h)
+) on DeviceVendor,TimeGenerated | sort by score desc,TotalBytesSent desc

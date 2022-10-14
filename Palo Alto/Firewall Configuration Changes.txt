@@ -1,0 +1,7 @@
+CommonSecurityLog
+| where DeviceProduct =~ 'PAN-OS'
+| where DeviceEventClassID == 'general'
+| where Message contains "Commit job succeeded for user "
+| extend Admin=extract('Commit job succeeded for user (\\S+).',1,Message)
+| extend Firewall = Computer
+| project TimeGenerated , Firewall, Admin,Message

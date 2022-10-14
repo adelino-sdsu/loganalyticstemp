@@ -1,0 +1,14 @@
+CommonSecurityLog
+| where DeviceVendor contains "Palo Alto Networks"
+// Add column for Firewall Rule Name aka DeviceCustomString1
+| extend FirewallRuleName = DeviceCustomString1
+// Source IP
+// | where SourceIP == "123.456.789.012"
+// DestinationPort = Destination Port
+//| where DestinationPort == "12345"
+// DestinationIP = Destination IP
+// | where DesintationIP == "111.222.333.444"
+// ApplicationProtocol = Application Protocol (e.g. ms-ds-smbv3, msrpc-base, ldap, ping)
+// | where ApplicationProtocol == "111.222.333.444"
+// DeviceCustomString1 = Firewall Rule Name (e.g. AD-IN, AD-Out, Default-Deny-Dragnet)
+//| where DeviceCustomString1 == "AD-IN"

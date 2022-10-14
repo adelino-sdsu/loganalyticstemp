@@ -1,0 +1,13 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4730 or EventID == 4727 or EventID == 4781
+| where Account !contains "$"
+| extend Old_Account_Name_extend = extract(@".OldTargetUserName.>(.*)<\/Data>", 1, EventData)
+| extend New_Account_Name_extend = extract(@".NewTargetUserName.>(.*)<\/Data>", 1, EventData)
+| extend Action_Attempted_extend = case(EventID == 4727, "Created", EventID == 4730, "Deleted", EventID == 4781, "Name Changed", "Not Applicable")
+| extend Result_extend = case(
+Level==8,"Succeeded",
+Level==16,"Failed",
+"Not Applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, EventID, Action_Attempted = Action_Attempted_extend, Result = Result_extend, Account_Changed = TargetUserName, Changed_By = SubjectUserName, Old_Account_Name = Old_Account_Name_extend , New_Account_Name = New_Account_Name_extend

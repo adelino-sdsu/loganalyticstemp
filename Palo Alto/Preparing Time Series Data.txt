@@ -1,0 +1,13 @@
+let starttime = 30d;
+let endtime = 1d;
+let timeframe = 1h;
+let PrivateIPregex = @'^127\.|^10\.|^172\.1[6-9]\.|^172\.2[0-9]\.|^172\.3[0-1]\.|^192\.168\.';
+let TimeSeriesData = CommonSecurityLog 
+| where TimeGenerated between (startofday(ago(starttime))..startofday(ago(endtime)))
+| where DeviceVendor =="Palo Alto Networks" and Activity  == "TRAFFIC" 
+| where isnotempty(DestinationIP) and isnotempty(SourceIP)
+| extend DestinationIpType = iff(DestinationIP matches regex PrivateIPregex,"private" ,"public" )
+| where DestinationIpType =="public"
+| project TimeGenerated, SentBytes,DeviceVendor
+| make-series TotalBytesSent=sum(SentBytes) on TimeGenerated from startofday(ago(starttime)) to startofday(ago(endtime)) step timeframe by DeviceVendor;
+TimeSeriesData

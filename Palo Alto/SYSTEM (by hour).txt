@@ -1,0 +1,3 @@
+CommonSecurityLog
+| where Activity has_cs "SYSTEM"
+| summarize count() by bin(TimeGenerated, 1h)

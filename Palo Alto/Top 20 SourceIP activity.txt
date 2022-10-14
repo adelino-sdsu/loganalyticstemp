@@ -1,0 +1,4 @@
+CommonSecurityLog
+| where DeviceVendor contains "Palo Alto Networks"
+| summarize count() by SourceIP,Activity,DeviceAction
+| top 20 by count_

@@ -1,0 +1,9 @@
+CommonSecurityLog
+| where DeviceProduct =~ 'PAN-OS'
+| where DeviceAction =~ "deny"
+| where DeviceCustomString4 =~ "trust"
+| extend Firewall = Computer
+| extend TCPIP_Protocol = strcat(Protocol,"/",DestinationPort)
+| extend Rule = DeviceCustomString1
+| summarize Denials=count() by Firewall, SourceIP, TCPIP_Protocol, Rule
+| sort by Denials desc

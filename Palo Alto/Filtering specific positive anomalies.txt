@@ -1,0 +1,6 @@
+let TimeSeriesAlerts = TimeSeriesData
+| extend (anomalies, score, baseline) = series_decompose_anomalies(TotalBytesSent,3, -1, 'linefit')
+| mv-expand TotalBytesSent to typeof(double), TimeGenerated to typeof(datetime), anomalies to typeof(double),score to typeof(double), baseline to typeof(long)
+| where anomalies > 0
+| project TimeGenerated, TotalBytesSent, baseline,score,anomalies, deviceVendor;
+TimeSeriesAlerts
