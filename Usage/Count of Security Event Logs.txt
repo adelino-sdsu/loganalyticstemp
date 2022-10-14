@@ -1,0 +1,3 @@
+SecurityEvent
+| project TimeGenerated , EventID, Activity, Computer 
+| summarize count() by EventID, Activity, Computer

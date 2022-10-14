@@ -1,0 +1,4 @@
+union withsource = tt * 
+| where _IsBillable == true 
+| where Computer != ""
+| summarize TotalVolumeBytes=sum(_BilledSize) by Computer

@@ -1,0 +1,10 @@
+SecurityEvent // Security Events, alex told me
+
+Event // Application & System Event Logs
+
+Syslog // Linux Logs
+
+SecurityEvent
+| where Account contains "adelino"
+| where Computer contains "ITD-WVD-T0-0"
+| project TimeGenerated, Account, Computer,Activity

@@ -1,0 +1,3 @@
+Event
+| where Computer contains "ENT-WVD-0" //This is the EIS WVD server
+| where RenderedDescription contains "TLS" // looking for TLS errors

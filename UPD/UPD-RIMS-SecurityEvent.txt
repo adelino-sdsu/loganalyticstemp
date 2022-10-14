@@ -1,0 +1,8 @@
+// SecurityEvent
+// | where Computer contains "id.sdsu.edu"
+// | where IpAddress == "130.191.248.1" or IpAddress == "130.191.248.2" or IpAddress == "130.191.248.5"
+// | where IpAddress == "*"
+SecurityEvent 
+| where TimeGenerated > ago(7d) 
+| where Account contains "upd-rims01" or Account contains "upd-rims02" or Account contains "upd-mq"
+| limit 100

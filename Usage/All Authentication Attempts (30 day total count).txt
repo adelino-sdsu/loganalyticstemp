@@ -1,0 +1,74 @@
+SecurityEvent
+| where IpAddress != "146.244.71.129" and IpAddress != "146.244.71.135" and IpAddress != "146.244.71.136"
+| where EventID == 4624 or EventID == 4625 or (EventID == 4648 and TargetUserName == 'Shibboleth') or EventID == 4768 or EventID == 4769 or EventID == 4770 or EventID == 4771 or EventID == 4776 or EventID == 4777 or EventID == 4778
+|extend Who_extend = case(
+EventID == 4769 or EventID == 4770,extract(@".TargetUserName.>(.*)<\/Data>", 1, EventData),
+(EventID != 4769 and EventID !=4770) and TargetUserName != "", TargetUserName,
+"N/A"
+)
+|extend Where_extend = case(
+EventID == 4769 or EventID == 4770,extract(@".IpAddress.>(.*)<\/Data>", 1, EventData),
+Workstation != "",Workstation,
+IpAddress != "",IpAddress,
+"N/A"
+)
+| where Where_extend != "IDDC4" and Where_extend != "IDDC5" and Where_extend != "IDDC00"
+| extend Problem_extend = case(
+EventID == 4624,"Success - might be background reauth",
+EventID == 4648,"Success - as alternate credentials",
+EventID == 4768 and Status == '0x0',"Success - computer logon, screen unlock, or scheduled task",
+EventID == 4769 and Status != '',"Failure - kerb service ticket failed",
+EventID == 4769 and Status == '',"Success - kerb service ticket requested",
+EventID == 4770,"Success - kerberos ticket renewed",
+EventID == 4776 and Status == '0x0',"Success - authenticated",
+EventID == 4778,"Success - session reconnected",
+Status == '0x6',"Failed - Bad User Name",
+Status == '0x12',"Failed - Disabled, Expired or Locked",
+Status == '0x17',"Failed - Expired Password",
+Status == '0x18',"Failed - Bad Password",
+Status == '0x25',"Failed - Clock skew too great",
+Status == '0xc000018c',"Failed - Trust relationship failure",
+Status == '0xc0000193',"Failed - Account Expired",
+Status == '0xc0000199',"Failed - Account credential validation failed",
+Status == '0xc0000224',"Failed - Next Logon Req Pwd Change",
+Status == '0xc0000071',"Failed - Expired Password",
+Status == '0xc0000234',"Failed - Account Locked",
+Status == '0xc00002ee',"Failed - Reason not found yet",
+Status == '0xc0000070',"Failed - Workstation restriction",
+Status == '0xc0000072',"Failed - Account Disabled",
+Status == '0xc0000064',"Failed - Bad User Name",
+Status == '0xc000006a',"Failed - Bad Password",
+Status == '0xc000006d',"Failed - Bad Password",
+EventData)
+| project TimeGenerated, host = Computer, Where = Where_extend, Who = Who_extend, Problem = Problem_extend, EventID 
+| where TimeGenerated > ago(30d)
+| summarize events_count=count() by startofday(TimeGenerated),EventID
+
+ host=iddc* source="WinEventLog:Security" EventCode=4624 OR EventCode=4625 OR (EventCode=4648 Account_Name!="Shibboleth") OR EventCode=4768 OR EventCode=4769 OR EventCode=4770 OR EventCode=4771 OR EventCode=4776 OR EventCode=4777 OR EventCode=4778              
+ | eval Logged_On=mvindex(Account_Name,1) | eval Who=case(Logged_On!="",Logged_On,Account_Name!="",Account_Name,Logon_Account!="",Logon_Account)
+ | eval Where=case(Client_Address!="",Client_Address,Source_Network_Address!="",Source_Network_Address,Source_Workstation!="",Source_Workstation,Network_Address!="",Network_Address)
+ | search Who!="*$*" Where!=IDDC0 Where!=IDDC3 Where!=IDDC2 Where!=*146.244.71.129 Where!=*146.244.71.135 Where!=*146.244.71.136
+ | eval Problem=case(
+Status="0xC0000224","Failed - Must change pwd next logon",
+Status="0xC000018C","Failed - Trust relationship failure",
+Status="0xC00002EE","Failed - 2EE - reason not found yet",
+Status="0xC000005E","Failed - No Logon Servers",
+(Status="0xC0000133" OR Failure_Code="0x25"),"Failed - Clock skew too great",
+(Status="0xC0000193" OR Status="0xc0000193" OR Error_Code="0xC0000193" OR Error_Code="0xc0000193"),"Failed - Account Expired",
+(Error_Code="0xC0000070" OR Sub_Status="0xC0000070" OR Result_Code="0xC" OR Result_Code="0xc"),"Failed - Workstation restriction",
+(Error_Code="0xC0000234" OR Error_Code="0xc0000234" OR Sub_Status="0xC0000234" OR Sub_Status="0xc0000234"),"Failed - Account Locked",
+(Error_Code="0xC0000072" OR Error_Code="0xc0000072" OR Sub_Status="0xC0000072" OR Sub_Status="0xc0000072"),"Failed - Account Disabled",
+(Error_Code="0xC0000224" OR Error_Code="0xc0000224" OR Sub_Status="0xC0000224" OR Sub_Status="0xc0000224"),"Failed - Next Logon Req Pwd Change",
+(Error_Code="0xc0000064" OR Error_Code="0xC0000064" OR Sub_Status="0xc0000064" OR Sub_Status="0xC0000064" OR Failure_Code="0x6" OR Result_Code="0x6"),"Failed - Bad User Name",
+(Error_Code="0xC000006A" OR Error_Code="0xc000006a" OR Sub_Status="0xC000006A" OR Sub_Status="0xc000006a" OR Failure_Code="0x18" OR Result_Code="0x18"),"Failed - Bad Password",
+(Error_Code="0xC0000071" OR Error_Code="0xc0000071" OR Sub_Status="0xC0000071" OR Sub_Status="0xc0000071" OR Failure_Code="0x17" OR Result_Code="0x17"),"Failed - Expired Password",
+(Result_Code="0x12" OR Failure_Code="0x12"),"Failed - Disabled, Expired or Locked",
+(EventCode="4768" AND Result_Code="0x0"),"o-------------------------Success - computer logon, screen unlock, or scheduled task",
+(EventCode="4769" AND Failure_Code="0x0"),"o-------------------------Success - kerb service ticket requested",
+(EventCode="4776" AND Error_Code="0x0"),"o-------------------------Success - authenticated",
+EventCode="4624","o-------------------------Success - might be background reauth",
+EventCode="4648","o-------------------------Success - as alternate credentials",
+EventCode="4770","o-------------------------Success - kerberos ticket renewed",
+EventCode="4778","o-------------------------Success - session reconnected")
+ | eval Problem=if(isnull(Problem),"Might be good. Might be bad. My master has not yet told me how to categorize this set of codes.",Problem)
+ | eval Date=strftime(_time,"%x") | eval Time=strftime(_time,"%I:%M:%S %p") | sort 0 - _time | table Date,Time,host,Where,Who,Problem,EventCode
