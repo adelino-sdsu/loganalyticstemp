@@ -1,0 +1,1 @@
+SecurityEvent | where Computer contains "id.sdsu.edu" | where EventID == 4624 or EventID == 4625 | where TimeGenerated > now() - 11d | where TargetUserName !contains "$" | where IpAddress contains "146.244.101.130" | extend PacificTimeStamp = TimeGenerated  -7h | project PacificTimeStamp, Account_Name = TargetUserName, Source_Network_Address = IpAddress

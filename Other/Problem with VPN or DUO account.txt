@@ -1,0 +1,27 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID==4705 or EventID==4720 
+or (EventID==4722 or EventID==4723 or EventID==4724 or EventID==4725 and SubjectUserName !endswith "$") 
+or EventID==4726 or (EventID==4738 and AccountExpires !="" and AccountExpires!="-") 
+or EventID==4740 or EventID==4767 
+or EventID==4781 
+| where SubjectUserName !endswith "$"
+| where * contains "ENT-DUO-MFA" 
+| where * contains "ENT-PA3020-VPN" 
+| extend Action_Attempted_extend = case(EventID==4720,"Created",
+EventID==4722,"Enabled",
+EventID==4723,"User Changed Password",
+EventID==4724,"Password Reset by Admin",
+EventID==4725,"Disabled",
+EventID==4726,"Deleted",
+EventID==4738,"Acct Expiration Change",
+EventID==4740,"Locked",
+EventID==4767,"Unlocked -whether needed or not",
+EventID==4781,"Name Changed",
+"N/A")
+| extend Result_extend = case(
+Level==8,"Succeeded",
+Level==16,"Failed",
+"Not Applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, EventID, Action_Attempted = Action_Attempted_extend, Result = Result_extend, Account_Changed = TargetUserName, Changed_By = SubjectUserName

@@ -1,0 +1,11 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| extend PST_TimeStamp = TimeGenerated  -7h
+| where IpAddress != "146.244.71.129" and IpAddress != "146.244.71.135" and IpAddress != "146.244.71.136"
+| where EventID == 4740
+|extend Where_extend = case(
+EventID == 4770,extract(@".IpAddress.>(.*)<\/Data>", 1, EventData),
+Workstation != "",Workstation,
+IpAddress != "",IpAddress,
+"N/A"
+)

@@ -1,0 +1,63 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4705
+or EventID == 4720
+or ((EventID == 4722 or EventID == 4723 or EventID == 4724 or EventID == 4725) and Account !contains "$")
+or EventID == 4726
+or EventID == 4738
+or EventID == 4740
+or EventID == 4767
+or EventID == 4781
+| extend Action_Attempted_extend = case(
+EventID==4720,"Created",
+EventID==4722,"Enabled",
+EventID==4723,"User Changed Password",
+EventID==4724,"Password Reset by Admin",
+EventID==4725,"Disabled",
+EventID==4726,"Deleted",
+EventID==4738,"Acct Expiration Change",
+EventID==4740,"Locked",
+EventID==4767,"Unlocked -whether needed or not",
+EventID==4781,"Name Changed",
+"Not Applicable")
+| extend Old_Account_Name_extend = extract(@".OldTargetUserName.>(.*)<\/Data>", 1, EventData)
+| extend New_Account_Name_extend = extract(@".NewTargetUserName.>(.*)<\/Data>", 1, EventData)
+| extend Attribute_Value_Ignore_Dashes_extend = strcat(SamAccountName,DisplayName,UserPrincipalName,HomeDirectory,ScriptPath,ProfilePath,UserWorkstations,PasswordLastSet,AccountExpires,PrimaryGroupId,AllowedToDelegateTo,OldUacValue,NewUacValue,UserAccountControl,UserParameters,SidHistory,LogonHours)
+| extend Attribute_Changed_extend = case(
+SamAccountName!= "-" , SamAccountName,
+DisplayName!= "-" , DisplayName ,
+UserPrincipalName!= "-" , UserPrincipalName ,
+HomeDirectory!= "-" , HomeDirectory,
+ScriptPath!= "-" , ScriptPath ,
+ProfilePath!= "-" , ProfilePath ,
+UserWorkstations!= "-" , UserWorkstations,
+PasswordLastSet!= "-" , PasswordLastSet,
+AccountExpires!= "-" , AccountExpires,
+PrimaryGroupId!= "-" , PrimaryGroupId,
+AllowedToDelegateTo!= "-" , AllowedToDelegateTo,
+OldUacValue!= "-" , OldUacValue,
+NewUacValue!= "-" , NewUacValue,
+UserAccountControl!= "-" , UserAccountControl,
+UserParameters!= "-" , UserParameters,
+SidHistory!= "-" , SidHistory,
+LogonHours!= "-" , LogonHours,
+"Not Applicable")
+| extend Result_extend = case(
+Level==8,"Succeeded",
+Level==16,"Failed",
+"Not Applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, Computer, EventID, Action_Attempted = Action_Attempted_extend, Result = Result_extend, Account_Changed = TargetUserName,
+Attribute_Changed = Attribute_Changed_extend, Attribute_Value_Ignore_Dashes = Attribute_Value_Ignore_Dashes_extend, Changed_By = SubjectUserName, Old_Account_Name = Old_Account_Name_extend, New_Account_Name = New_Account_Name_extend, AccountExpires
+
+host=iddc* source="WinEventLog:Security" 
+EventCode=4705 OR EventCode=4720 OR (EventCode=4722 OR EventCode=4723 OR EventCode=4724 OR EventCode=4725 AND Account_Name!="*$") OR EventCode=4726 OR EventCode=4738 OR EventCode=4740 OR EventCode=4767 
+OR EventCode=4781        
+| eval Account_Changed=mvindex(Account_Name,1) | 
+eval Changed_By=mvindex(Security_ID,0) | 
+eval Result=case(Keywords="Audit Success","Succeeded",Keywords="Audit Failure","Failed") | 
+eval Action_Attempted=case(EventCode=4720,"Created",EventCode=4722,"Enabled",EvaentCode=4723,"User Changed Password",EventCode=4724,"Password Reset by Admin",EventCode=4725,"Disabled",EventCode=4726,"Deleted",EventCode=4738,"Change Attribute",EventCode=4740,"Locked",EventCode=4767,"Unlocked -whether needed or not",EventCode=4781,"Name Changed") 
+| strcat(SAM_Account_Name Display_Name User_Principal_Name Home_Directory Home_Drive Script_Path Profile_Path User_Workstations Password_Last_Set Account_Expires Primary_Group_ID AllowedToDelegateTo Old_UAC_Value New_UAC_Value User_Account_Control User_Parameters SID_History Logon_Hours) Attribute_Value_Ignore_Dashes | 
+eval Attribute_Changed=case(SAM_Account_Name!="-","sAMAccountName",Display_Name!="-","DisplayName",User_Principal_Name!="-","UPN",Home_Directory!="-","HomeDir",Home_Drive!="-","HomeDrive",Script_Path!="-","ScriptPath",Profile_Path!="-","ProfilePath",User_Workstations!="-","AllowedWorkstations",Password_Last_Set!="-","PwdLastSet",Account_Expires!="-","AcctExpiration",Primary_Group_ID!="-","PrimGroupID",AllowedToDelegateTo!="-","AllowedToDelegate",Old_UAC_Value!="-","OldUACValue",New_UAC_Value!="-","NewUACValue",User_Account_Control!="-","UAC",User_Parameters!="-","UserParams",SID_History!="-","SIDHist",Logon_Hours!="-","LogonHours") | 
+eval Date=strftime(_time,"%x") | eval Time=strftime(_time,"%I:%M:%S %p") | sort - _time | 
+table Date,Time,host,EventCode,Action_Attempted,Result,Account_Changed,Attribute_Changed,Attribute_Value_Ignore_Dashes,Changed_By,Old_Account_Name,New_Account_Name,Account_Expires,Security_ID

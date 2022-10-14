@@ -1,0 +1,14 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| extend Action_Attempted_extend = case(
+EventID==4726,"Deleted",
+"Not Applicable")
+| extend Result_extend = case(
+Level==8,"Succeeded",
+Level==16,"Failed",
+"Not Applicable")
+| extend SecurityID_extend = strcat(SubjectAccount, "\n", TargetAccount)
+| extend Old_Account_Name_extend = extract(@".OldTargetUserName.>(.*)<\/Data>", 1, EventData)
+| extend New_Account_Name_extend = extract(@".NewTargetUserName.>(.*)<\/Data>", 1, EventData)
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, Computer, EventID, Action_Attempted = Action_Attempted_extend, Result = Result_extend, Account_Changed = TargetUserName, SecurityID = SecurityID_extend, Changed_By = SubjectUserName, Old_Account_Name = Old_Account_Name_extend, New_Account_Name = New_Account_Name_extend

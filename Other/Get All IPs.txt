@@ -1,0 +1,7 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4624
+| where TargetUserName endswith "$"
+| extend PacificTimeStamp = TimeGenerated  -7h
+| summarize any(PacificTimeStamp, Computer, Account) by IpAddress
+| project Time = any_PacificTimeStamp, host = any_Computer, Source_Network_Address = IpAddress, Logged_On = any_Account

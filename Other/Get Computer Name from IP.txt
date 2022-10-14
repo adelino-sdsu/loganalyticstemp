@@ -1,0 +1,8 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4768
+| where IpAddress  contains "130.191.63.248" //Enter IP address here
+| where TargetUserName contains "$"
+| extend PacificTimeStamp = TimeGenerated  -7h
+| limit 1
+| project PacificTimeStamp, host = Computer, User_ID = TargetUserName, IpAddress

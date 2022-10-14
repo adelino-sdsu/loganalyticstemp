@@ -1,0 +1,14 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4739 or EventID == 5136 or EventID == 5141 or EventID == 4730 or EventID == 4727 or EventID == 4781 or EventID == 4764 or (EventID == 5139 and EventData contains "group")
+| where Account !contains "$"
+| extend Old_Account_Name_extend = extract(@".OldTargetUserName.>(.*)<\/Data>", 1, EventData)
+| extend New_Account_Name_extend = extract(@".NewTargetUserName.>(.*)<\/Data>", 1, EventData)
+| extend SubjectUsername_extend = case(EventID==5139, extract(@".SubjectUserName.>(.*)<\/Data>", 1, EventData), SubjectUserName)
+| extend TargetUsername_extend = case(EventID==5139, extract(@".OldObjectDN.>CN=(.*?),OU=", 1, EventData), TargetUserName)
+| extend OldObjectDN_extend = extract(@".OldObjectDN.>(.*)<\/Data>", 1, EventData)
+| extend NewObjectDN_extend = extract(@".NewObjectDN.>(.*)<\/Data>", 1, EventData)
+| extend Action_Attempted_extend = case(EventID == 4727, "Created", EventID == 4730, "Deleted", EventID == 4764, "Group Type Changed", EventID == 4781, "Name Changed", EventID == 5139, "Group Moved", "Not Applicable")
+| extend Result_extend = case(  Level==8,"Succeeded",  Level==16,"Failed",  "Not Applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, EventID, Action_Attempted = Action_Attempted_extend, Result = Result_extend, Account_Changed = TargetUsername_extend, Changed_By = SubjectUsername_extend, Old_Account_Name = Old_Account_Name_extend , New_Account_Name = New_Account_Name_extend, Old_Object_DN = OldObjectDN_extend, New_Object_DN = NewObjectDN_extend

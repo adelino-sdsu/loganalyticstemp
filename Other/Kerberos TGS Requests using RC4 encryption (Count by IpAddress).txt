@@ -1,0 +1,18 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4769
+| where EventData contains "0x17"
+|extend TargetUSERNAME = case(
+EventID == 4769,extract(@".TargetUserName.>(.*)<\/Data>", 1, EventData), TargetUserName)
+|extend Status = case(
+EventID == 4769,extract(@".Status.>(.*)<\/Data>", 1, EventData), "N/A")
+|extend ServiceName = case(
+EventID == 4769,extract(@".ServiceName.>(.*)<\/Data>", 1, EventData), "N/A")
+|extend TicketOptions = case(
+EventID == 4769,extract(@".TicketOptions.>(.*)<\/Data>", 1, EventData), "N/A")
+|extend IpAddress = case(
+EventID == 4769,extract(@".IpAddress.>(.*)<\/Data>", 1, EventData), "N/A")
+| where TargetUSERNAME !contains "$"
+| where ServiceName !contains "$"
+| where TicketOptions contains "0x40810000"
+| summarize events = count() by IpAddress
