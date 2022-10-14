@@ -1,0 +1,5 @@
+// Cleanup Failure 
+// SurfaceHub cleanup failure. 
+DeviceCleanup
+| where State == "Fatal" 
+| sort by TimeGenerated desc

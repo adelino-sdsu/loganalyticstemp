@@ -1,0 +1,7 @@
+// CCF application errors 
+// View the latest Confidential Consortium Framework application errors. 
+// To create an alert for this query, click '+ New alert rule'
+CCFApplicationLogs
+| where Level == "Fail"
+| sort by TimeGenerated desc
+| limit 100

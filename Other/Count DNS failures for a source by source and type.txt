@@ -1,0 +1,5 @@
+// Count DNS failures for a source by source and type 
+// Count the number of failed DNS queries for each source IP address and failure type 
+ASimDnsActivityLogs
+| where EventType == 'Query' and EventResult == 'Failure'
+| summarize count() by SrcIpAddr, EventResultDetails

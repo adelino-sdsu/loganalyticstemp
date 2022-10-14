@@ -1,0 +1,5 @@
+// Client connection IDs 
+// Summary of the connection IDs which are client connections. 
+SignalRServiceDiagnosticLogs
+| where ConnectionType == "Client"
+| summarize count() by ConnectionId, _ResourceId

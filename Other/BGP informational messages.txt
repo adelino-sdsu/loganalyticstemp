@@ -1,0 +1,5 @@
+// BGP informational messages 
+// BGP informational messages by level, resource type and network. 
+AzureDiagnostics
+| where Level == "Informational"
+| project TimeGenerated , ResourceId, Level, ResourceType , network_s , path_s

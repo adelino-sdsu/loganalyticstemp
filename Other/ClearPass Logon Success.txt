@@ -1,0 +1,8 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4776
+| where Workstation contains "CLEARPASS"
+| where Status == "0x0"
+| extend PacificTimeStamp = TimeGenerated  -7h
+| summarize any (PacificTimeStamp, Computer, Workstation) by TargetUserName
+| project Time = any_PacificTimeStamp, Host = any_Computer, Source_Workstation = any_Workstation, Logon_Account = TargetUserName

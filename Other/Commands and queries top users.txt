@@ -1,0 +1,19 @@
+// Commands and queries top users 
+// Most active users (by command/query count). 
+let system_databases = dynamic(['KustoMonitoringPersistentDatabase', '$systemdb']); // Internal Kusto system databases
+let system_users = dynamic(['AAD app id=b753584e-c468-4503-852a-374280ce7a62', 'KustoServiceBuiltInPrincipal']); // Internal Kusto system users (b753584e-c468-4503-852a-374280ce7a62 is Kusto Query Runner)
+let system_cluster_management_applications = dynamic(['Kusto.WinSvc.CM.Svc', 'Kusto.WinSvc.DM.Svc']); // Internal kusto management applications (Cluster and Data Management)
+let CommandTable = ADXCommand
+| where DatabaseName  !in (system_databases) and User !in (system_users) and ApplicationName !in (system_cluster_management_applications)
+| parse _ResourceId with * "providers/microsoft.kusto/clusters/" cluster_name;
+let QueryTable = ADXQuery
+| where DatabaseName  !in (system_databases) and User !in (system_users) and ApplicationName !in (system_cluster_management_applications)
+| parse _ResourceId with * "providers/microsoft.kusto/clusters/" cluster_name
+| extend CommandType = 'Query';
+let dataset_commands_queries = CommandTable
+| union (QueryTable);
+dataset_commands_queries
+// | where cluster_name == '<Your cluster name filter>' // Uncomment to filter by specific cluster name
+| project User, StartedOn , ApplicationName, CommandType , cluster_name
+| summarize Count=count() by User, ApplicationName, cluster_name
+| top 50 by Count desc

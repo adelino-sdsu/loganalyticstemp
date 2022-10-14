@@ -1,0 +1,7 @@
+// Chart of daily sent snapshots 
+// A time chart of recent snapshots count, succeeded VS failed. 
+//Succeeded VS Failed
+MicrosoftDataShareSentSnapshotLog 
+| where TimeGenerated > ago(30d)  
+| summarize count() by bin(TimeGenerated, 1d), Status, _ResourceId // Aggregating by day //Click "Table" to see resource's name.
+| render timechart

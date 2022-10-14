@@ -1,0 +1,5 @@
+// CIEventsAudit - API response codes line chart 
+// Line chart showing requests response duration per operation. 
+CIEventsAudit
+| summarize DurationMs = avg(DurationMs)  by bin(TimeGenerated, 5m), OperationName
+| render timechart

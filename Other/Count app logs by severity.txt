@@ -1,0 +1,6 @@
+// Count app logs by severity 
+// Bar chart of app log severities over time. 
+// To create an alert for this query, click '+ New alert rule'
+AppServiceAppLogs 
+| summarize count()  by CustomLevel, bin(TimeGenerated, 1h), _ResourceId
+| render barchart

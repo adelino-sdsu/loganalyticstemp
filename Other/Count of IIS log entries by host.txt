@@ -1,0 +1,4 @@
+// Count of IIS log entries by host 
+// Count of IIS log entries by host requested by client. 
+W3CIISLog 
+| summarize count() by csHost

@@ -1,0 +1,6 @@
+// Connectvity errors 
+// Identify device connection errors. 
+// To create an alert for this query, click '+ New alert rule'
+AzureDiagnostics
+| where ResourceProvider == "MICROSOFT.DEVICES" and ResourceType == "IOTHUBS"
+| where Category == "Connections" and Level == "Error"

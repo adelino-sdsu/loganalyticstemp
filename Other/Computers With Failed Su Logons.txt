@@ -1,0 +1,5 @@
+// Computers With Failed Su Logons 
+// Lists computers with failed su logons. 
+Syslog
+| where (Facility == 'authpriv' and SyslogMessage has 'su:auth' and SyslogMessage has 'authentication failure') or (Facility == 'auth' and SyslogMessage has 'FAILED SU')
+| summarize count() by Computer

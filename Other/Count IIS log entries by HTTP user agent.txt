@@ -1,0 +1,4 @@
+// Count IIS log entries by HTTP user agent 
+// Count IIS log entries by HTTP user agent. 
+W3CIISLog 
+| summarize count() by csUserAgent

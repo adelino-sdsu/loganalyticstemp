@@ -1,0 +1,4 @@
+// Count of IIS log entries by URL 
+// Count of IIS log entries by URL requested by client. 
+W3CIISLog 
+| summarize count() by csUriStem

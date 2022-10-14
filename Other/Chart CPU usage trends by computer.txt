@@ -1,0 +1,9 @@
+// Chart CPU usage trends by computer 
+// Calculate CPU usage patterns over the last hour, chart by percentiles. 
+InsightsMetrics
+| where TimeGenerated > ago(1h)
+| where Origin == "vm.azm.ms"
+| where Namespace == "Processor"
+| where Name == "UtilizationPercentage"
+| summarize avg(Val) by bin(TimeGenerated, 5m), Computer //split up by computer
+| render timechart

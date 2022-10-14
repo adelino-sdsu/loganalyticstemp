@@ -1,0 +1,5 @@
+// Bytes received by each IIS computer 
+// Total bytes received by each IIS computer. 
+W3CIISLog 
+| summarize sum_csBytes = sum(csBytes) by Computer 
+| top 500 by sum_csBytes desc

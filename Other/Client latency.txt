@@ -1,0 +1,7 @@
+// Client latency 
+// Statistics of time (in miliseconds) spent in client IO. 
+// To create an alert for this query, click '+ New alert rule'
+ApiManagementGatewayLogs
+| where TimeGenerated > ago(1d)
+| summarize Average=avg(ClientTime), Median=percentile(ClientTime, 50), 90th_Percentile=percentile(ClientTime, 90) by bin(TimeGenerated, 15m) 
+| render timechart

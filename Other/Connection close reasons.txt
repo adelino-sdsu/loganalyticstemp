@@ -1,0 +1,5 @@
+// Connection close reasons 
+// Summary of close reasons for disconnected connections. 
+SignalRServiceDiagnosticLogs
+| where OperationName == "ConnectionAborted" or OperationName == "ConnectionEnded" or OperationName == "EndConnectionFailed"
+| summarize count() by  ConnectionId, Message, _ResourceId

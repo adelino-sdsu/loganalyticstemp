@@ -1,0 +1,4 @@
+Heartbeat
+| summarize arg_max(TimeGenerated, *) by SourceComputerId
+| where ComputerIP == "130.191.140.14" or ComputerIP == "130.191.31.34"  or ComputerIP == "130.191.140.9"  or ComputerIP == "130.191.40.132"  or ComputerIP == "130.191.40.130"  or ComputerIP == "130.191.140.24"  or ComputerIP == "130.191.40.129"
+| render table

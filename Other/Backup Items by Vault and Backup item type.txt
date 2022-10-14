@@ -1,0 +1,9 @@
+// Backup Items by Vault and Backup item type 
+// View the different types of items being backed up. 
+CoreAzureBackup
+//get all backup items
+| where OperationName == "BackupItem"
+//remove duplicate records if any
+| summarize arg_max(TimeGenerated, *) by BackupItemUniqueId, ResourceId
+// summarize backup items by type
+| summarize NumberOfItems=count(BackupItemUniqueId) by BackupItemType

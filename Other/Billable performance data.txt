@@ -1,0 +1,7 @@
+// Billable performance data 
+// Calculate the volume of billable data (in GB) for Perf data, over the last day. 
+Usage
+| where TimeGenerated > ago(1d)
+| where IsBillable == true
+| where DataType == "Perf"
+| summarize TotalVolumeGB = sum(Quantity) / 1024

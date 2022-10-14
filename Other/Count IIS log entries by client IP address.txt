@@ -1,0 +1,4 @@
+// Count IIS log entries by client IP address 
+// Count IIS log entries by client IP address. 
+W3CIISLog 
+| summarize count() by cIP

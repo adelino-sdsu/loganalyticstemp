@@ -1,0 +1,11 @@
+// Cluster availability (KeepAlive) 
+// Display the cluster's availability during the last hour. 
+// To create an alert for this query, click '+ New alert rule'
+AzureMetrics 
+| where ResourceProvider == "MICROSOFT.KUSTO"
+| where TimeGenerated > ago(1d)
+| where MetricName == "KeepAlive"
+| parse _ResourceId with * "providers/microsoft.kusto/clusters/" cluster_name // Get the cluster name from the ResourceId string
+| summarize heartbeat_count = count() by bin(TimeGenerated, 30m), cluster_name // bin is used to set the time grain to 30 minutes
+| extend alive=iff(heartbeat_count > 0, true, false)
+| sort by TimeGenerated asc // sort the results by time (ascending order)

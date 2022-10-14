@@ -1,0 +1,5 @@
+// Client TLS versions 
+// Breakdown of client TLS versions in the last 24 hours. 
+ApiManagementGatewayLogs
+| where TimeGenerated > ago(1d)
+| summarize count(CorrelationId) by ClientTlsVersion, _ResourceId

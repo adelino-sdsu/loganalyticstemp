@@ -1,0 +1,5 @@
+// Count of warning events 
+// Count of warning events by event ID. 
+Event 
+| where EventLevelName == "warning" 
+| summarize count() by EventID

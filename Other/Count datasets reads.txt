@@ -1,0 +1,7 @@
+// Count datasets reads 
+// Count datasets reads grouped by users and datasets. 
+AmlDataSetEvent
+| where split(OperationName, "/")[-1]=="READ" and AmlDatasetId !=""
+| extend  Identity=(parse_json(Identity))
+| project AmlDatasetId, UserName=Identity.UserName
+| summarize  Count=count() by AmlDatasetId, UserName=tostring(UserName)

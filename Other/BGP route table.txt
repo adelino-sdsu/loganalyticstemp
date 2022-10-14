@@ -1,0 +1,6 @@
+// BGP route table 
+// BPG route table learned over last 12 hours. 
+AzureDiagnostics
+| where TimeGenerated > ago(12h)
+| where ResourceType == "EXPRESSROUTECIRCUITS"
+| project TimeGenerated , ResourceType , network_s , path_s , OperationName

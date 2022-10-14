@@ -1,0 +1,7 @@
+// Call Recording's mode ratio 
+// Produces a pie chart of the proportion of recording modes (content/format types). 
+ACSCallRecordingSummary
+| summarize count() by ContentType, FormatType
+| extend ContentFormat = strcat(ContentType, "/", FormatType)
+| project ContentFormat, count_
+| render piechart title="Recording by mode (content/format types)"
