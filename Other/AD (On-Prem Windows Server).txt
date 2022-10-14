@@ -1,0 +1,11 @@
+SecurityEvent
+| where TimeGenerated > now() - 15m
+| where EventID == 4720 or EventID == 4727 or EventID == 4781
+| where Account !contains "svcMIMInstall" and Account !contains "svcIMSDSU"
+| where SamAccountName !contains "_" and SamAccountName !contains "-" and SamAccountName !contains "$"
+| extend New_Account_Name = extract(@".NewTargetUserName.>(.*)<\/Data>", 1, EventData)
+| where New_Account_Name !contains "_" and New_Account_Name !contains "-" and New_Account_Name !contains "$"
+| extend ActionAttempted = case( EventID == 4720,"User Created", EventID == 4727,"Group Created", EventID == 4781,"Object Renamed", "Not Applicable")
+| extend ObjectName = case( EventID == 4781,New_Account_Name, EventID == 4720,TargetUserName, EventID == 4727, TargetUserName, ObjectName)
+| extend PacificTimeStamp = TimeGenerated -7h
+| project PacificTimeStamp, ActionAttempted, ObjectName, Created_By = Account

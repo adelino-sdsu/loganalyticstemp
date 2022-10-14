@@ -1,0 +1,12 @@
+// AEWComputePipelinesLogs get failed tasks detail 
+// Get latest 100 failed tasks detail from compute pipelines records in selected time range. 
+AEWComputePipelinesLogs
+| where EventName =~ "ScorecardRequestFailed"
+| where Properties.ExperimentationGroup =~ "test~ExperimentationGroup"
+| project
+    TimeGenerated
+    ,EventName
+    ,ExperimentationGroup = Properties.ExperimentationGroup
+    ,AnalysisType = Properties.AnalysisType
+| sort by TimeGenerated desc
+| take 100

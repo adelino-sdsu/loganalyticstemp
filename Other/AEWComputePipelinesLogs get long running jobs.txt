@@ -1,0 +1,12 @@
+// AEWComputePipelinesLogs get long running jobs 
+// Get long running jobs from compute pipelines records in last seven days. 
+AEWComputePipelinesLogs
+| where EventName =~ "CosmosJobUtilization"
+| where Properties.ExperimentationGroup =~ "test~ExperimentationGroup"
+| where todouble(Properties.JobRunningInSeconds) >= 24 * 60 * 60
+| project
+    TimeGenerated
+    ,EventName
+    ,ExperimentationGroup = Properties.ExperimentationGroup
+    ,AnalysisType = Properties.AnalysisType
+| sort by TimeGenerated desc

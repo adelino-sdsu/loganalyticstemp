@@ -1,0 +1,5 @@
+// AD Recommendations by DomainController 
+// Count AD recommendations with failed result by domain controller. 
+ADAssessmentRecommendation 
+| where RecommendationResult == "Failed" 
+| summarize AggregatedValue = count() by DomainController

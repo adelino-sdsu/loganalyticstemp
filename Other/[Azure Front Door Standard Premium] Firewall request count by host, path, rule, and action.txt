@@ -1,0 +1,7 @@
+// [Azure Front Door Standard/Premium] Firewall request count by host, path, rule, and action 
+// Count firewall processed requests by host, path, rule, and action taken. Summarize request count by host, path, rule, and action. 
+AzureDiagnostics
+| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorWebApplicationFirewallLog"
+| extend ParsedUrl = parseurl(requestUri_s)
+| summarize RequestCount = count() by Host = tostring(ParsedUrl.Host), Path = tostring(ParsedUrl.Path), RuleName = ruleName_s, Action = action_s, ResourceId
+| order by RequestCount desc

@@ -1,0 +1,5 @@
+// 10 latest Ingress logs 
+// Shows the most recent ten error logs in the Ingress category. This is helpful when getting familiar with the TSIIngress schema. 
+//Retrieves the most recent ten error logs in the Ingress category. This is helpful when getting familiar with the TSIIngress schema.
+TSIIngress
+| top 10 by TimeGenerated

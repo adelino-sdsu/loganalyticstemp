@@ -1,0 +1,5 @@
+// Accounts Failed to Logon 
+// Counts failed logons by target account. 
+SecurityEvent
+| where EventID == 4625
+| summarize count() by TargetAccount

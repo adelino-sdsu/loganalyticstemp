@@ -1,0 +1,4 @@
+// Agents that provide wire data 
+// Agents providing wire data and sum of total bytes for each agent. 
+WireData
+| summarize sum(TotalBytes) by Computer

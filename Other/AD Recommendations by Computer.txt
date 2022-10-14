@@ -1,0 +1,5 @@
+// AD Recommendations by Computer 
+// Count AD recommendations with failed result by computer. 
+ADAssessmentRecommendation 
+| where RecommendationResult == "Failed" 
+| summarize AggregatedValue = count() by Computer

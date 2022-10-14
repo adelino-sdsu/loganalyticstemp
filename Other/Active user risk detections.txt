@@ -1,0 +1,5 @@
+// Active user risk detections 
+// Gets a list of active user risk detections. 
+AADUserRiskEvents
+| summarize arg_max(LastUpdatedDateTime, *) by RequestId, UserId
+| where RiskState == "atRisk"

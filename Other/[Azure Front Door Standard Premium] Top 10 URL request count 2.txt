@@ -1,0 +1,7 @@
+// [Azure Front Door Standard/Premium] Top 10 URL request count 
+// Show top 10 URLs by request count. 
+AzureDiagnostics
+| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorAccessLog"
+| summarize UserRequestCount = count() by requestUri_s
+| order by UserRequestCount
+| limit 10

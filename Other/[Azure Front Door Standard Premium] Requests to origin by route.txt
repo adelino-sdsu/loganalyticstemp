@@ -1,0 +1,5 @@
+// [Azure Front Door Standard/Premium] Requests to origin by route 
+// Count number of requests for each route and origin per minute. Summarize number of requests per minute for each route and origin. 
+AzureDiagnostics
+| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorAccessLog"
+| summarize RequestCount = count() by bin(TimeGenerated, 1m), Resource, RouteName = routingRuleName_s, originName = originName_s, ResourceId

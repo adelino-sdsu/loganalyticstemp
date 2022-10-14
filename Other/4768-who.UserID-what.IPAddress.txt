@@ -1,0 +1,7 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4768 
+and TargetUserName !contains "$"
+and * contains "username" //Enter UserName or IP Address here
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, Domain_Controller = Computer, Account_Name = TargetUserName, IpAddress

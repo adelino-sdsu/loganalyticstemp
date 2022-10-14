@@ -1,0 +1,5 @@
+// AD Recommendations by AffectedObjectType 
+// Count AD recommendations with failed result by affected object type. 
+ADAssessmentRecommendation 
+| where RecommendationResult == "Failed" 
+| summarize AggregatedValue = count() by AffectedObjectType

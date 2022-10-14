@@ -1,0 +1,10 @@
+// 4XX error rate by URL 
+// Show 4XX error rate by URL. 
+// Request errors rate by URL
+// Count number of requests with error responses by URL. 
+// Summarize number of requests by URL, and status codes are 4XX
+// To create an alert for this query, click '+ New alert rule'
+AzureDiagnostics
+| where OperationName == "Microsoft.Cdn/Profiles/AccessLog/Write" and Category == "AzureCdnAccessLog" and isReceivedFromClient_b == true
+| extend Is4XX = (toint(httpStatusCode_s ) >= 400 and toint(httpStatusCode_s ) < 500)
+| summarize 4xxrate = (1.0 * countif(Is4XX)  / count()) * 100 by requestUri_s, bin(TimeGenerated, 1h), _ResourceId
