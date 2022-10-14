@@ -1,8 +1,0 @@
-// [Azure Front Door Standard/Premium] Request errors by host and path 
-// Count number of requests with error responses by host and path. Summarize number of requests by host, path, and status codes >= 400. 
-AzureDiagnostics
-| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorAccessLog"
-| where toint(httpStatusCode_s) >= 400
-| extend ParsedUrl = parseurl(requestUri_s)
-| summarize RequestCount = count() by Host = tostring(ParsedUrl.Host), Path = tostring(ParsedUrl.Path), StatusCode = httpStatusCode_s, ResourceId
-| order by RequestCount desc

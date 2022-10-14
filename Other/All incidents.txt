@@ -1,6 +1,0 @@
-// All incidents 
-// Retrieves all Incident work items generated in this solution. 
-ServiceDesk_CL
-| where  ServiceDeskWorkItemType_s == "Incident" 
-| summarize arg_max(TimeGenerated, *) by ServiceDeskId_s 
-| sort by TimeGenerated desc

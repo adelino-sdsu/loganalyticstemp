@@ -1,4 +1,0 @@
-// All Syslog by facility 
-// All Syslog by facility. 
-Syslog 
-| summarize count() by Facility

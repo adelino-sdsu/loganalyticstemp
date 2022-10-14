@@ -1,9 +1,0 @@
-// Cache hit ratio 
-// Statistics of Cache hit/miss ratio. 
-// To create an alert for this query, click '+ New alert rule'
-ApiManagementGatewayLogs
-| where TimeGenerated > ago(1d)
-| summarize Cache_Miss=countif(Cache  == "miss"), Cache_Hit=countif(Cache == "hit") by bin(TimeGenerated, 15m)
-| extend Ratio=Cache_Hit / (Cache_Hit + Cache_Miss)
-| project-away Cache_Hit , Cache_Miss 
-| render timechart

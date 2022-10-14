@@ -1,6 +1,0 @@
-// All incidents created today 
-// Retrieves all Incident work items generated in this solution during the last day. 
-ServiceDesk_CL
-|where  ServiceDeskWorkItemType_s == "Incident" and CreatedDate_t > bin(now(), 1d) 
-| summarize arg_max(TimeGenerated, *) by ServiceDeskId_s 
-| sort by TimeGenerated desc

@@ -1,6 +1,0 @@
-// CPU usage trends over the last day 
-// Calculate CPU usage patterns across all computers, chart by percentiles. 
-Perf
-| where ObjectName == "Processor" and CounterName == "% Processor Time" and InstanceName == "_Total"
-| summarize percentiles(CounterValue, 50, 90, 99) by bin(TimeGenerated, 1h)
-| render timechart

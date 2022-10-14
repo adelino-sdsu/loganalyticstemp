@@ -1,6 +1,0 @@
-// Accounts With Less Than 5 Times Logons 
-// Logon activity for accounts with less than 5 logons. 
-SecurityEvent
-| where EventID == 4624
-| summarize LogonCount = count() by Account
-| where LogonCount < 5

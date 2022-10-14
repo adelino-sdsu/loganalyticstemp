@@ -1,0 +1,10 @@
+SecurityEvent // Security Events
+
+Event // Application & System Event Logs
+
+Syslog // Linux Logs
+
+SecurityEvent
+| where Account contains "dkerberg"
+| where Computer contains "scriptssrv" 
+| project Account, Computer, Activity

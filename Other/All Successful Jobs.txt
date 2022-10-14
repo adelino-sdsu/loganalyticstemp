@@ -1,5 +1,0 @@
-// All Successful Jobs 
-// View all successful jobs in the selected time range. 
-AddonAzureBackupJobs
-| summarize arg_max(TimeGenerated,*) by JobUniqueId
-| where JobStatus == "Completed"

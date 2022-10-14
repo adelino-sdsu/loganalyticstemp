@@ -1,0 +1,15 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where TargetUserName != "ENT-BigBackup" and TargetUserName !contains "dwm-" and TargetUserName !contains "dcbackup" and TargetUserName !contains "SYSTEM"
+| where LogonType != 3 and LogonType != 4 and LogonType != 5 and LogonType != 9 
+| where EventID == 4624 or EventID == 4625
+| extend EventID_result = case(EventID == 4624, "Succeeded", EventID == 4625, "Failed", "Not Applicable")
+| extend LogonType = case(
+LogonType == 2, "Local Logon",
+LogonType == 7, "Unlock Computer",
+LogonType == 8, "NetworkClearText",
+LogonType == 10, "Remote Desktop",
+LogonType == 11, "Cached Credentials",
+"Not applicable")
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project PacificTimeStamp, host = Computer, Logged_On = TargetUserName, Source_Network_Address = IpAddress, ProcessName, ProcessId, AccessVia = LogonType, Result = EventID_result

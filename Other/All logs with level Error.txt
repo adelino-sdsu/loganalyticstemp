@@ -1,6 +1,0 @@
-// All logs with level "Error" 
-// Shows all logs that are likely to have negatively impacted your job. 
-// To create an alert for this query, click '+ New alert rule'
-AzureDiagnostics
-| where ResourceProvider == "MICROSOFT.STREAMANALYTICS" and Level == "Error" 
-| project TimeGenerated, Resource, Region_s, OperationName, properties_s, Level, _ResourceId

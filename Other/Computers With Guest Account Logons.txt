@@ -1,5 +1,0 @@
-// Computers With Guest Account Logons 
-// Computers with logons from guest accounts. 
-SecurityEvent
-| where EventID == 4624 and TargetUserName == 'Guest' and LogonType in (10, 3)
-| summarize count() by Computer

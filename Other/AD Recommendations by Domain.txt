@@ -1,5 +1,0 @@
-// AD Recommendations by Domain 
-// Count AD recommendations with failed result by domain. 
-ADAssessmentRecommendation 
-| where RecommendationResult == "Failed" 
-| summarize AggregatedValue = count() by Domain

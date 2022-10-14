@@ -1,5 +1,0 @@
-// Computers availability today 
-// Chart the number of computers sending logs, each hour. 
-Heartbeat
-| summarize dcount(ComputerIP) by bin(TimeGenerated, 1h)
-| render timechart

@@ -1,7 +1,0 @@
-// [Azure Front Door Standard/Premium] Top 10 client IPs and http versions 
-// Show top 10 client IPs and http versions by request count. 
-AzureDiagnostics
-| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorAccessLog"
-| summarize RequestCount = count() by ClientIP = clientIp_s, HttpVersion = httpVersion_s, Resource
-|top 10 by RequestCount 
-| order by RequestCount desc

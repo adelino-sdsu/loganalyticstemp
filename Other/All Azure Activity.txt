@@ -1,4 +1,0 @@
-// All Azure Activity 
-// The query presents all AzureActivity events. 
-AzureActivity
-| project TimeGenerated, Caller, OperationName, ActivityStatus, _ResourceId

@@ -1,6 +1,0 @@
-// Automatic update configuration is disabled 
-// Computers with automatic update disabled. 
-// To create an alert for this query, click '+ New alert rule'
-UpdateSummary
-| where WindowsUpdateSetting == "Manual" 
-| sort by TimeGenerated desc

@@ -1,5 +1,0 @@
-// Bytes received by Protocol Name 
-// Bytes received by Protocol Name (transport-level protocol, only some are recognized). 
-WireData
-| where Direction == "Inbound"
-| summarize sum(ReceivedBytes) by ProtocolName

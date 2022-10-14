@@ -1,6 +1,0 @@
-// Audit logs 
-// Get all audit logs. It requires audit logs to be enabled [https://docs.microsoft.com/azure/postgresql/concepts-audit]. 
-AzureDiagnostics
-| where ResourceProvider =="MICROSOFT.DBFORPOSTGRESQL" 
-| where Category == "PostgreSQLLogs"
-| where Message contains "AUDIT:"

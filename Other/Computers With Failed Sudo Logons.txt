@@ -1,5 +1,0 @@
-// Computers With Failed Sudo Logons 
-// Lists computers with failed sudo logons. 
-Syslog
-| where (Facility == 'authpriv' and SyslogMessage has 'sudo:auth' and (SyslogMessage has 'authentication failure' or SyslogMessage has 'conversation failed')) or ((Facility == 'auth' or Facility == 'authpriv') and SyslogMessage has 'user NOT in sudoers')
-| summarize count() by Computer

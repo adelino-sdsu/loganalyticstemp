@@ -1,6 +1,0 @@
-// Azure Automation jobs that are Completed 
-// List all automation jobs that got completed. 
-// To create an alert for this query, click '+ New alert rule'
-AzureDiagnostics 
-| where ResourceProvider == "MICROSOFT.AUTOMATION" and Category == "JobLogs" and ResultType == "Completed" 
-| project TimeGenerated , RunbookName_s , ResultType , _ResourceId , JobId_g

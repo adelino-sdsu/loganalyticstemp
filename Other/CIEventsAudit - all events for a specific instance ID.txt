@@ -1,6 +1,0 @@
-// CIEventsAudit - all events for a specific instance ID 
-// Gets a list of API events requests for a specific instance ID. 
-CIEventsAudit
-| where InstanceId == "" // Add your InstanceId in the quotation marks
-| sort by TimeGenerated desc
-| limit 100

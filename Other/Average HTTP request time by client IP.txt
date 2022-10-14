@@ -1,4 +1,0 @@
-// Average HTTP request time by client IP 
-// Average HTTP request time by client IP address. 
-W3CIISLog 
-| summarize avg(TimeTaken) by cIP

@@ -1,5 +1,0 @@
-// All Office Activity 
-// All the events provided by Office Activity. 
-OfficeActivity
-| project TimeGenerated, UserId, Operation, OfficeWorkload, RecordType, _ResourceId
-| sort by TimeGenerated desc nulls last

@@ -1,5 +1,0 @@
-// Audit Logs relating to unexpected users 
-// List Audit Logs for users who logged in that aren't a listed user. 
-// To create an alert for this query, click '+ New alert rule'
-AppServiceAuditLogs
-| where UserDisplayName != "user@company.com"

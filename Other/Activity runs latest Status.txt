@@ -1,4 +1,0 @@
-// Activity runs latest Status 
-// Returns latest Status of Activity runs. 
-ADFActivityRun
-| summarize argmax(TimeGenerated, * ) by ActivityRunId, Status, _ResourceId

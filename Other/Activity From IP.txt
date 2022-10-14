@@ -1,5 +1,0 @@
-// Activity From IP 
-// Lists activities involving a given IP. 
-let IP="1.2.3.255";
-CommonSecurityLog
-| where SourceIP == IP or DestinationIP==IP

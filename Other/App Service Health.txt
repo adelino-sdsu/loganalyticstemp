@@ -1,5 +1,0 @@
-// App Service Health 
-// Time series of App Service Health (over 5 minute intervals). 
-AppServiceHTTPLogs 
-| summarize (count() - countif(ScStatus >= 500)) * 100.0 / count() by bin(TimeGenerated, 5m), _ResourceId
-| render timechart

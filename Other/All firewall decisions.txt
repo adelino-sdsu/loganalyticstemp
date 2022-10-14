@@ -1,5 +1,0 @@
-// All firewall decisions 
-// All decision taken by firewall. Contains hits on network, application and NAT rules, as well as threat intelligence hits and IDPS signature hits. 
-AZFWNetworkRule
-| union AZFWApplicationRule, AZFWNatRule, AZFWThreatIntel, AZFWIdpsSignature
-| take 100

@@ -1,6 +1,0 @@
-// [Azure Front Door Standard/Premium]  Unique IP request count 
-// Show unique IP request count. 
-AzureDiagnostics
-| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorAccessLog"
-| summarize dcount(clientIp_s) by bin(TimeGenerated, 1h)
-| render timechart

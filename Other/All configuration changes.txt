@@ -1,6 +1,0 @@
-// All configuration changes 
-// Lists all configuration changes sorted by time (newest first). 
-
-
-ConfigurationChange
-| sort by TimeGenerated desc

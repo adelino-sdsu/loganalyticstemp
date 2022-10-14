@@ -1,5 +1,0 @@
-// Bytes sent by Application Protocol 
-// Bytes sent by Application Protocol. 
-WireData
-| where Direction == "Outbound"
-| summarize sum(SentBytes) by ApplicationProtocol

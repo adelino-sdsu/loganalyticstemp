@@ -1,5 +1,0 @@
-// Automatic update configuration 
-// Automatic update configuration. 
-// To create an alert for this query, click '+ New alert rule'
-UpdateSummary
-| summarize AggregatedValue = count() by WindowsUpdateSetting, Computer, _ResourceId

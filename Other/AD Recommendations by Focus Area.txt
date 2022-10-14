@@ -1,4 +1,0 @@
-// AD Recommendations by Focus Area 
-// Count all AD reccomendations by focus area. 
-ADAssessmentRecommendation 
-| summarize AggregatedValue = count() by FocusArea

@@ -1,5 +1,0 @@
-// Average BW across All Connections 
-// Display a graph of Bandwidth (KBps) across all connections over 10 min intervals at the 10th, 50th, and 90th percentiles. 
-WVDConnectionNetworkData
-| summarize BWP90=percentile(EstAvailableBandwidthKBps,90),BWP50=percentile(EstAvailableBandwidthKBps,50),BWP10=percentile(EstAvailableBandwidthKBps,10) by bin(TimeGenerated,10m)
-| render timechart

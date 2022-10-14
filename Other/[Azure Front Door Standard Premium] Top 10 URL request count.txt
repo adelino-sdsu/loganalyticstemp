@@ -1,5 +1,0 @@
-//  [Azure Front Door Standard/Premium] Top 10 URL request count  
-//  Show egress from AFD edge by URL. Change bins resolution from 1hr to 5m to get real time results. 
-AzureDiagnostics
-| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorAccessLog"
-| summarize ResponseBytes = sum(toint(responseBytes_s)) by requestUri_s

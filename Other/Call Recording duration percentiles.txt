@@ -1,7 +1,0 @@
-// Call Recording duration percentiles 
-// Calculates the average call recording duration in seconds, as well as the 50%, 90%, and 99% call duration percentiles. 
-ACSCallRecordingSummary
-// Get the distinct combinations of RecordingId, RecordingLength
-| distinct RecordingId, RecordingLength
-// Calculate average and percentiles (50%, 90%, and 99%) of call durations (in seconds)
-| summarize avg(RecordingLength), percentiles(RecordingLength, 50, 90, 99)

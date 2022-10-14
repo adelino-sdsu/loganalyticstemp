@@ -1,7 +1,0 @@
-// Computer with missing updates 
-// All computers with missing updates. 
-// To create an alert for this query, click '+ New alert rule'
-Update
-|where OSType != "Linux" and UpdateState == "Needed" and Optional == "false" 
-| project TimeGenerated, Computer, Title, KBID, Classification, MSRCSeverity, PublishedDate, _ResourceId
-| sort by TimeGenerated desc

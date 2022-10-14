@@ -1,6 +1,0 @@
-// Count failed sent snapshots 
-// Total count of failed snapshots over the last 7 days. 
-MicrosoftDataShareSentSnapshotLog
-| where TimeGenerated > ago(7d)  
-| where Status == "Failed" 
-| summarize count() by _ResourceId

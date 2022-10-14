@@ -1,6 +1,0 @@
-// CIEvents - all events for a specific correlation id 
-// Gets a list of all events request for a specific correlation id 
-union CIEventsAudit , CIEventsOperational
-| where CorrelationId == "" // Add your CorrelationId in the quotation marks
-| sort by TimeGenerated desc
-| limit 100

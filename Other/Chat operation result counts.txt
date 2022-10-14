@@ -1,6 +1,0 @@
-// Chat operation result counts 
-// For every chat operation, count the types of returned results. 
-ACSChatIncomingOperations
-| summarize Count = count() by OperationName, ResultType //, ResultSignature // This can also be uncommented to determine the count of each ResultSignature for each ResultType 
-| order by OperationName asc, Count desc
-| limit 100

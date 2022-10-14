@@ -1,0 +1,9 @@
+SecurityEvent
+| where Computer contains "id.sdsu.edu"
+| where EventID == 4732 or EventID == 4733 or EventID == 4755 or EventID == 4756 or EventID == 4728 or EventID == 4729
+| where TargetUserName == "Domain Admins" or TargetUserName == "Enterprise Admins" or TargetUserName == "Administrators" or TargetUserName == "Schema Admins" or TargetUserName == "Backup Operators" or TargetUserName == "Server Operators" or TargetUserName == "Print Operators"
+| extend Action_extend = case(EventID ==4728, "Added", EventID==4729, "Removed", EventID ==4732, "Added", EventID==4733, "Removed", EventID ==4755, "Added", EventID==4756, "Removed", "N/A")
+| extend Timeboundaccess_extend = case(EventData contains "MembershipExpirationTime", "Yes", "No")
+| extend Timeboundaccess_timestamp = extract(@".MembershipExpirationTime.>(.*)<\/Data>", 1, EventData)
+| extend PacificTimeStamp = TimeGenerated  -7h
+| project Changed_By = SubjectUserName, TimeBoundAccess = Timeboundaccess_extend, TimeBoundAccess_EndTime_PST = Timeboundaccess_timestamp, Action = Action_extend, UserChanged = MemberName, Group_Name = TargetUserName, PacificTimeStamp

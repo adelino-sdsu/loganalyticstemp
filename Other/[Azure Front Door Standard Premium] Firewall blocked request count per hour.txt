@@ -1,7 +1,0 @@
-// [Azure Front Door Standard/Premium] Firewall blocked request count per hour 
-// Count number of firewall blocked requests per hour. Summarize number of firewall blocked requests per hour by policy. 
-AzureDiagnostics
-| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorWebApplicationFirewallLog"
-| where action_s == "Block"
-| summarize RequestCount = count() by bin(TimeGenerated, 1h), Policy = policy_s, PolicyMode = policyMode_s, Resource, ResourceId
-| order by RequestCount desc

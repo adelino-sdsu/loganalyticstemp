@@ -1,5 +1,0 @@
-// Count of failed workflow operations from Workflow Runtime 
-// Count of failed workflow operations from Workflow Runtime in selected time range for each workflow. 
-WorkflowRuntime
-| where Status == "Failed"
-| summarize count() by WorkflowName

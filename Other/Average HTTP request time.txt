@@ -1,4 +1,0 @@
-// Average HTTP request time 
-// Average HTTP request time for HTTP method. 
-W3CIISLog 
-| summarize avg(TimeTaken) by csMethod

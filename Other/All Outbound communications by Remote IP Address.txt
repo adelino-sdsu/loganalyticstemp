@@ -1,5 +1,0 @@
-// All Outbound communications by Remote IP Address 
-// All Outbound communications by Remote IP Address. 
-WireData
-| where  Direction == "Outbound"
-| summarize count() by RemoteIP

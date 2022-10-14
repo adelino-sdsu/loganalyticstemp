@@ -1,7 +1,0 @@
-// Creation of Forward rule 
-// Lists creation of email forward rules. 
-OfficeActivity
-| where OfficeWorkload == "Exchange"
-| where Operation in~ ("New-TransportRule", "Set-TransportRule")
-| extend RuleName = case(Operation =~ "Set-TransportRule", tostring(OfficeObjectId), Operation =~ "New-TransportRule", tostring(parse_json(Parameters)[1].Value), "Unknown")
-| project  TimeGenerated, ClientIP, UserId, Operation, RuleName, _ResourceId

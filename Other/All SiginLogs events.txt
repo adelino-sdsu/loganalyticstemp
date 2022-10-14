@@ -1,4 +1,0 @@
-// All SiginLogs events 
-// All Azure signin events. 
-SigninLogs
-| project UserDisplayName, Identity,UserPrincipalName,  AppDisplayName, AppId, ResourceDisplayNames

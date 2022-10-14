@@ -1,6 +1,0 @@
-// Call type ratio 
-// Produces a pie chart of the proportion of call types (P2P and group calls). 
-ACSCallSummary
-// Count distinct calls (dcount(CorrelationId)) per call type
-| summarize call_types=dcount(CorrelationId) by CallType
-| render piechart title="Call Type Ratio"

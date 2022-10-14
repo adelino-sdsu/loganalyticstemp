@@ -1,5 +1,0 @@
-// Azure Activity operation statistics 
-// Statistics of operations over Azure Activity. 
-AzureActivity
-| summarize Count=count() by OperationName, _ResourceId
-| sort by Count desc nulls last

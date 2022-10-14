@@ -1,6 +1,0 @@
-// All Logs for a Particular Object 
-// Display all audit events for a particular object on an ANF volume. 
-ANFFileAccess
-| where ObjectName == "/auditlog.txt"
-| sort by TimeGenerated desc
-| limit 100

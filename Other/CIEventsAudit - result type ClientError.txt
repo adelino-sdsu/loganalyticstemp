@@ -1,6 +1,0 @@
-// CIEventsAudit - result type ClientError 
-// Gets a list of operational events request that finished with result type ClientError: HTTP status code < 500. 
-CIEventsAudit
-| where ResultType has "ClientError"
-| sort by TimeGenerated desc
-| limit 100 // You can adjust the limit value to the number of logs you would like to retrieve.

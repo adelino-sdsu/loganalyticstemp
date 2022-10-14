@@ -1,6 +1,0 @@
-// [Azure Front Door Standard/Premium] Requests per hour 
-// Render line chart showing total requests per hour for each FrontDoor resource. 
-AzureDiagnostics
-| where ResourceProvider == "MICROSOFT.CDN" and Category == "FrontDoorWebApplicationFirewallLog"
-| summarize RequestCount = count() by bin(TimeGenerated, 1h), Resource, ResourceId
-| render timechart

@@ -1,7 +1,0 @@
-// Backend latency 
-// Statistics of time (in miliseconds) spent in backend IO. 
-// To create an alert for this query, click '+ New alert rule'
-ApiManagementGatewayLogs
-| where TimeGenerated > ago(1d)
-| summarize Average=avg(BackendTime), Median=percentile(BackendTime, 50), 90th_Percentile=percentile(BackendTime, 90) by bin(TimeGenerated, 15m) 
-| render timechart

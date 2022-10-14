@@ -1,5 +1,0 @@
-// Active service principal risk detections 
-// Gets a list of active service principal risk detections. 
-AADServicePrincipalRiskEvents
-| summarize arg_max(LastUpdatedDateTime, *) by RequestId, ServicePrincipalId
-| where RiskState == "atRisk"

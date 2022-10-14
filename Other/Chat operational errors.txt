@@ -1,7 +1,0 @@
-// Chat operational errors 
-// List every chat error ordered by recency. 
-ACSChatIncomingOperations
-| where ResultType == "Failed"
-| project TimeGenerated, OperationName, OperationVersion, ResultSignature, ResultDescription
-| order by TimeGenerated desc
-| limit 100

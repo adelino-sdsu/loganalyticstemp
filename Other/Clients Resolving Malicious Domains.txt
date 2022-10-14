@@ -1,5 +1,0 @@
-// Clients Resolving Malicious Domains 
-// Distinct clients resolving malicious domains. 
-DnsEvents
-| where SubType == 'LookupQuery' and isnotempty(MaliciousIP)
-| summarize count() by ClientIP

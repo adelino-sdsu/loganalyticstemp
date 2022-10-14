@@ -1,5 +1,0 @@
-// Count of successful warehouse delete requests 
-// Evaluates the count of successful warehouse delete requests. 
-SupplyChainEntityOperationLogs
-| where RequestMethod == "DELETE" and OperationName == "Microsoft.OpenLogisticsPlatform/workspace/warehouses/delete" and HttpStatusCode == 200
-| summarize Count = count() by RequestId

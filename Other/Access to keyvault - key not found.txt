@@ -1,7 +1,0 @@
-// Access to keyvault - key not found 
-// Summarizes the access to keyvault when key is not found. 
-// To create an alert for this query, click '+ New alert rule'
-AzureDiagnostics
-| where ResourceProvider == "MICROSOFT.EVENTHUB" 
-| where Category == "Error" and OperationName == "wrapkey"
-| project Message, ResourceId

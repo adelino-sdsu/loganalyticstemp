@@ -1,4 +1,0 @@
-// Count IIS log entries by HTTP request method 
-// Count IIS log entries by HTTP request method. 
-W3CIISLog 
-| summarize count() by csMethod

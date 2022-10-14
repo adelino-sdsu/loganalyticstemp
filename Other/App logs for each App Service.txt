@@ -1,6 +1,0 @@
-// App logs for each App Service 
-// Breakdown of log levels for each App Service. 
-// To create an alert for this query, click '+ New alert rule'
-AppServiceAppLogs 
-| project CustomLevel, _ResourceId
-| summarize count() by CustomLevel, _ResourceId

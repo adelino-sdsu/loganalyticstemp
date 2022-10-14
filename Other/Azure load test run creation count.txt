@@ -1,6 +1,0 @@
-// Azure load test run creation count 
-// Counts the number of successful test runs started by resource ID. 
-AzureLoadTestingOperation
-| where OperationId == "TestRun_CreateAndUpdateTest"
-| where HttpStatusCode == 200
-| summarize count() by _ResourceId

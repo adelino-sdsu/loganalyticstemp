@@ -1,7 +1,0 @@
-// Chart of daily received snapshots 
-// A time chart of the daily snapshots count, over the past week. 
-// Failed, In Progress and Succeeded Received Snapshots
-MicrosoftDataShareReceivedSnapshotLog 
-| where TimeGenerated > ago(7d)  
-| summarize count() by bin(TimeGenerated, 1d), Status , _ResourceId // Aggregating by day //Click "Table" to see resource's name.
-| render timechart

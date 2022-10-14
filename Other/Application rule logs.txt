@@ -1,4 +1,0 @@
-// Application rule logs 
-// Connections that matched Application rules. HTTP, HTTPS and MSSQL are supported. Both connection and rule metadata is displayed. 
-AZFWApplicationRule
-| take 100
